@@ -1384,8 +1384,8 @@ ins $mkd
 
 
 // param for editing
-// Export param. e-w0.apr, converts ASCII to ANSI (internal to external codes)
-var "e-w0"
+// Export param. e-w.apr, converts ASCII to ANSI (internal to external codes)
+var "e-w"
 ins $editPar
 
 var $editPar

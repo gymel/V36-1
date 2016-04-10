@@ -1,0 +1,5 @@
+var "https://portal.dnb.de/opac.htm?query=3-00-000733-4&method=simpleSearch"
+get I
+ins $u
+wri $u n
+
