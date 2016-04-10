@@ -1,21 +1,25 @@
-  E-UNICOD.APR : Ausgabe als UTF-8-Datei mit Kategorie-Nummern
-  2004-01-27 / 2009-06-23
+  E-PRESTO.APR : Ausgabe als UTF-8-Datei mit Kategorie-Nummern
+  2004-01-27 / 2015-07-27  nur f. presto.job (a35)
     Unterschied zu e-unicod.apr: nur die p-Zeilen am Ende
   Alle Felder in der internen Reihenfolge ausgeben 
   bzw. einzelne Felder ohne
-pn="Ausgabe UTF-8"
+pn="Ausgabe UTF-8 PRESTO.JOB"
 
   Gibt Daten in UTF-8 aus, jede Kategorie mit Nummer
-  auf neuer Zeile.
+  auf neuer Zeile
   ACHTUNG: Kommentar bei $$$$
   --------- Konstanten --------------------------------------------
 
-zl=0        Zeilenlaenge
+zl=0 	    Zeilenlaenge
 
-zi=0        4 Zeichen Einrueckung bei Folgezeilen
+zi=0	    4 Zeichen Einrueckung bei Folgezeilen
 zm=0        kein Seitenumbruch (fortlaufende Ausgabe)
 ae=""       kein Zeilenvorschub am Aufnahme-Ende
 fl=0        Listenstruktur (keine Karten)
+
+i4=1
+i5=_
+i6=10
 
   ACHTUNG: diese Werte, falls intern ASCII
   Akzentzeichen, aktivieren, wenn sie nicht in Indexparam. stehen
@@ -69,7 +73,7 @@ tad-utf   ad-utf.apt laden.
 
    Fuer HTML-Ausgabe noetig:
    Nur in e-unicod.apr
-  p .020 "<br>"    Absatz-Endezeichen, falls es als solches wirken soll
+ p .020 .13 10     Absatz-Endezeichen, falls es als solches wirken soll
  p < "&lt;"
  p > "&gt;"
  p & "&amp;"
