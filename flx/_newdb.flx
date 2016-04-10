@@ -1,9 +1,9 @@
   _NEWDB.FLX : Neuanlage einer Datenbank mit ausgewaehlten Parametern
-  2000-12-19
+  2000-12-19/2015-09-08
 
   Variablen #uwB und #uwK werden in dbnew.rtf gesetzt,
   bevor dieser FLEX aufgerufen wird.
-  #uwE: erweitertes Standardmodell
+  #uwE: erweitertes Standardmodell (incl. aLF, ORDER, ZAboM)
 
 var m
 if ="alc" end
@@ -24,7 +24,7 @@ var "Eine neue Datenbank mit dem Schema  " #uwB "  zur Konfiguration  " #uwK ".C
 :start2
 var +"Zuerst mssen Sie einen Namen fr das Verzeichnis w„hlen, auf dem dann Ihre Datenbank liegen soll." n
 var +"Dieses Verzeichnis kann auch auf einer anderen Platte liegen." n "Es folgt also jetzt die Eingabe eines Pfadnamens." n
-var +"Wenn Sie z.B. einfach 'Katalog' eingeben, wird dieses als Verzeichnisname an Ihr Arbeitsverzeichnis angeh„ngt." n
+var +"Wenn Sie z.B. einfach 'Katalog' eingeben, wird dieses als Verzeichnisname an Ihr Arbeitsverzeichnis " W " angeh„ngt." n
 var +"Sonst geben Sie einen vollst„ndigen Pfadnamen, z.B. 'D:\\Datenbanken\\Katalog'"
 ansi
 mess
@@ -172,7 +172,7 @@ ins #uvC
 var "Nun kann's losgehen!" n
 var +"Ihre neue Datenbank heiát " #uwB ", liegt auf " #uwD ", " n "und kann in Zukunft mit dem Befehl" n
 var +P "a99  " #uwI "    ge”ffnet werden." n
-var +"(Legen Sie am besten gleich eine Verknpfung mit diesem Befehl an.)" n
+var +"(Legen Sie am besten gleich eine Desktop-Verknpfung mit diesem Befehl an.)" n
 var +"Die Datei " #uwI ", die dafr neu angelegt wurde, k”nnen Sie fr Ihre Zwecke anpassen." n
 var +"Jetzt aber muá zuerst mindestens ein Datensatz eingegeben werden!"
 ansi

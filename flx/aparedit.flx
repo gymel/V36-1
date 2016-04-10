@@ -1,5 +1,5 @@
   APAREDIT.FLX : Bearbeiten der Anzeigeparameter
-  "Merseburger Testschleife" fuer a99, d.h.
+  2010-09-03     "Merseburger Testschleife" fuer a99, d.h.
   anschliessend sofort laden und ausfuehren (wie PRESTO F2 F2 ...)
   Zuerst auf dem DbDir nachsehen:
     a (FLEX-Variable) enthaelt den Namen der Datei (s. FLEXGER.RTF)

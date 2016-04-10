@@ -58,11 +58,12 @@ close x
 
   Ende, jetzt den laengsten Satz noch zeigen:
 var "#" #uI1
+
 find
 sho rec
 disp
   Nun die 6 Saetze als Erg.Menge zusammenfassen
-var "... ... or #" #uI1 "," #uI2 "," #uI3 "," #uJ1 "," #uJ2 "," #uJ3
+var "or #" #uI1 "," #uI2 "," #uI3 "," #uJ1 "," #uJ2 "," #uJ3
 find
   Erg.Menge benennen
 set RLängste/kürzeste Sätze
@@ -80,10 +81,11 @@ if z>0 var +n "Sätze mit weniger als " #uMX " Feldern: " z
 
 
 sho IV
-mes
+
 var ""
 sho iv
 
+jump schl
   und Erg.Liste zeigen
   sho list
   Variablen loeschen
@@ -100,6 +102,7 @@ sho iv
 #uJ2
 #uJ3
 
+:schl
 if z=0 jump schluss
 read set k1.lst
 
