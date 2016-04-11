@@ -1,0 +1,183 @@
+// sqltr.job : Excel-Tabellendatei (Textform) lesen und wandeln
+// 2016-04-11
+// Stellen fuer Eingriffe markiert mit  ***
+
+
+// Aufruf:   acon -jsqltr [-ff] [-ndateiname] [-Test]
+// Optionen:
+// -ff : nur Liste der Felder anzeigen
+// -ndateiname
+// -Test : Nur anzeigen, keine Datei schreiben
+
+
+// Optionen
+$OP.accept=-b -d -e -f -j -n -h -T
+
+// Optionen holen aus der Aufrufzeile
+perform OPGET   // in optsget.inc  
+// optsget.inc  wertet die Optionen aus und macht aus -xabc  $OP_x abc
+
+if $OP_h jump HELP
+
+// Unbegrenzte zahl von Zeilen
+set Z0
+
+// Unicode-Umcodierung aus
+set U2
+
+// Exp.-Parameter, gebraucht wird nur Tabelle aw-ad: Windows -> DOS
+exp p e-1
+exp t aw-ad
+
+if $OP_n jump open
+
+//Datei oeffnen
+perf HELP
+Wri "Dateiname? "
+ask
+if "" end
+ins $OP_n
+
+:open
+var $OP_n
+open 
+if no jump nof
+
+// erste Zeile lesen 
+get
+if can jump ende
+
+var (f'"')
+
+// TAB -> =!=
+ins _^I_=!=_
+
+ins #uex
+
+// *** Ausgabedatei oeffnen: derselbe Dateiname mit .adt als Typ
+
+var $OP_n (e".") ."adt"
+ins $Outfile
+open x
+if no jump outfehl
+
+var $OP_f
+if not "f" jump vloop
+
+// Zaehler f. Anzahl Felder
+z=1
+
+// Feldnamen in $tX ablegen
+:loop
+
+var "$t" z " " #uex(e"=!=" F'"')
+ins
+
+z+1
+var #uex(b"=!=" f'[ "]') 
+ins #uex
+if #uex jump loop
+
+var z
+Z=
+
+z=1
+
+// Feldliste $tX fertig, ausgeben
+:lp
+Wri z " : "
+var "$t" z
+var
+ins $a
+Wri $a n
+z+1
+eval Z -z
+if >0 jump lp
+
+end
+
+// Jetzt die Datei abarbeiten
+:vloop
+Z=0
+:vlo
+z=1
+// Zeile lesen
+get
+if can jump ende
+var (f'"')
+
+ins _^I_=!=_
+
+
+ins #uex
+
+:pl
+
+var #uex(e"=!=" F'"')
+// umcodieren
+xco xp
+ins $u
+var "$f" z " " $u
+
+ins
+z+1
+
+var #uex(b"=!=" f'[ "]') 
+ins #uex
+if #uex jump pl
+
+
+// Testmodus?
+
+if not $OP_T jump vl
+// dann dieser output:
+Wri "f1=" $f1 n "f2=" $f2 n "f3=" $f3 n "f4=" $f4 n "f5=" $f5 " ... " n n
+jump vlo
+
+:vl
+// *** Echtmodus: Auswertung
+// *** Abschnitt zum Produzieren eines Datensatzes o.a. aus der gelesenen Zeile,
+// Hier die konkrete Aktion, i.d.R. Produktion eines Datensatzes
+// d.h. aus den Variablen  $fi (i=1,2,...)
+
+// NUR ALS BEISPIEL fuer output im Externformat
+wri "#00 " $f1 n
+wri "#20 " $f5 n
+wri "#40 " $f2 n
+wri "#90 " $f15 " / " $f16 n
+wri n
+
+Z+1
+
+Wri 13 Z
+
+jump vlo
+
+:ende
+// Datei abschliessen
+close x
+Wri n n "Datei " $Outfile " ist erstellt" n
+
+end
+
+:nof
+Wri "Keine Datei" n
+end
+
+:outfehl
+Wri "Datei " $Outfile " kann nicht geoeffnet werden" n
+end
+
+// Routine zur Optionsauwertung hinzuladen (darin :OPGET)
+include optsget.inc
+end
+
+:HELP
+Wri "Aufruf:   acon -jsqltr [-ff] [-ndateiname]" n
+Wri "OPTIONEN:" n
+Wri "-ff   : nur Liste der Felder" n
+Wri "-ndateiname : Zu lesende Datei" n
+Wri "-Test : Ausgabe der Daten auf Konsole statt Datei" n n
+return
+
+
