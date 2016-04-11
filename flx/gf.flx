@@ -29,12 +29,34 @@ if not %\\% var P
 
 ins $fo
 
+  Dateityp auswerten
+var $dn (b".") "/"
+if "/" jump notyp
+if %pr/% var "exparam"
+if %pt/% var "exptab"
+if %pi/% var "inxparam"
+if %im/% var "imparam"
+if "cony" var "conf"
+var (F"/")
+ins $typ
+
+jump getdat
+
+:notyp
+var $dn
+if "uif" var "uif"
+if "h" var "h"
+ins $typ
+
+
+:getdat
   Datei holen
-var "http://www.allegro-b.de/files/" $dn
+var "http://www.allegro-b.de/files/" $typ "/" $dn
 get I
 if "" mes Kein Erfolg;end
 if %404 Not Found% jump notf
 
+:ersetz
   Ersetzung der Zeichenfolge 10 13 durch 13
 ins _^J^M_^M_
 ins $
@@ -56,7 +78,9 @@ help
 end
 
 :notf
-
+ins $
+var $dn
+if "gf.flx" var $;jump ersetz
 var "Die Datei " $dn " wurde auf dem Server nicht gefunden"
 mes
 
