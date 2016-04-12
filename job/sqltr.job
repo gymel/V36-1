@@ -1,4 +1,4 @@
-// sqltr.job : Excel-Tabellendatei (Textform) lesen und wandeln
+// sqltr.job : Excel-Tabellendatei (CSV-Textform) lesen und wandeln
 // 2016-04-11
 // Stellen fuer Eingriffe markiert mit  ***
 
@@ -22,18 +22,19 @@ if $OP_h jump HELP
 // Unbegrenzte zahl von Zeilen
 set Z0
 
-// Unicode-Umcodierung aus
+// Unicode-Umcodierung beim Dateilesen aus
 set U2
 
 // Exp.-Parameter, gebraucht wird nur Tabelle aw-ad: Windows -> DOS
 exp p e-1
+// *** hier ggls. andere Tabelle
 exp t aw-ad
 
 if $OP_n jump open
 
 //Datei oeffnen
 perf HELP
-Wri "Dateiname? "
+Wri "Dateiname? (CSV-Datei mit TAB als Separator)"
 ask
 if "" end
 ins $OP_n
@@ -56,19 +57,20 @@ ins #uex
 
 // *** Ausgabedatei oeffnen: derselbe Dateiname mit .adt als Typ
 
-var $OP_n (e".") ."adt"
+var $OP_f
+if not "f" jump vloop
+
+// -ff : Datei f.d. Feldliste
+var $OP_n (e".") ."fl"
 ins $Outfile
 open x
 if no jump outfehl
-
-var $OP_f
-if not "f" jump vloop
 
 // Zaehler f. Anzahl Felder
 z=1
 
 // Feldnamen in $tX ablegen
-:loop
+:floop
 
 var "$t" z " " #uex(e"=!=" F'"')
 ins
@@ -76,7 +78,7 @@ ins
 z+1
 var #uex(b"=!=" f'[ "]') 
 ins #uex
-if #uex jump loop
+if #uex jump floop
 
 var z
 Z=
@@ -86,18 +88,28 @@ z=1
 // Feldliste $tX fertig, ausgeben
 :lp
 Wri z " : "
+wri z " : "
 var "$t" z
 var
 ins $a
 Wri $a n
+wri $a n
 z+1
 eval Z -z
 if >0 jump lp
-
+close x
+Wri n "Feldliste steht in " $Outfile n
 end
 
 // Jetzt die Datei abarbeiten
 :vloop
+// *** Ausgabedatei oeffnen: derselbe Dateiname mit .adt als Typ
+
+var $OP_n (e".") ."adt"
+ins $Outfile
+open x
+if no jump outfehl
+
 Z=0
 :vlo
 z=1
@@ -106,7 +118,11 @@ get
 if can jump ende
 var (f'"')
 
+// TAB 
 ins _^I_=!=_
+
+// " im Feldtext
+ins _""_"_
 
 
 ins #uex
@@ -114,7 +130,7 @@ ins #uex
 :pl
 
 var #uex(e"=!=" F'"')
-// umcodieren
+// umcodieren  *** ggfls. xco u  wenn UTF-Daten vorliegen
 xco xp
 ins $u
 var "$f" z " " $u
@@ -130,7 +146,7 @@ if #uex jump pl
 // Testmodus?
 
 if not $OP_T jump vl
-// dann dieser output:
+// dann dieser output: (erste 5 Felder jedes Satzes)
 Wri "f1=" $f1 n "f2=" $f2 n "f3=" $f3 n "f4=" $f4 n "f5=" $f5 " ... " n n
 jump vlo
 
@@ -176,7 +192,7 @@ end
 Wri "Aufruf:   acon -jsqltr [-ff] [-ndateiname]" n
 Wri "OPTIONEN:" n
 Wri "-ff   : nur Liste der Felder" n
-Wri "-ndateiname : Zu lesende Datei" n
+Wri "-ndateiname : Auszuwertende CSV-Textdatei" n
 Wri "-Test : Ausgabe der Daten auf Konsole statt Datei" n n
 return
 
