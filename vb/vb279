@@ -43,7 +43,8 @@ Handbuchs (Kap. 11.2 oder h ac11-1) sind das Fremddaten vom Typ B,
 "Sätze mit fester Feldanzahl". Mit Import wird das ja schon längst oft
 praktiziert, doch es ist manchmal recht mühsam, und wer kennt sich 
 schon heute noch aus mit der Importsprache? Mit FLEX ist es bisher eher
-noch kniffliger. Dagegen läßt sich einiges tun.
+noch kniffliger. 
+Dagegen läßt sich einiges tun!
 
 Konkret sieht das so aus:
 Ein SQL-System kann i.a.R. eine Tabelle in Textgestalt so exportieren:
@@ -60,18 +61,6 @@ standardisiert; oft wird es schlicht verdoppelt.)
 Mehr:  https://de.wikipedia.org/wiki/CSV_(Dateiformat)
 
  
- 
-More 
-1 of 8,283
- 
-vb279
-Inbox
-	x
-Bernhard Eversberg <aresqa@gmail.com>
-	
-6:32 AM (0 minutes ago)
-		
-to me
 Ein neuer Job für acon wurde geschrieben:  sqltr.job (SQL table read).
 Er enthält das gesamte Rahmenwerk, um leicht eine SQL-Tabelle der
 genannten Form in allegro-Daten zu wandeln, aber zuerst einmal eine
@@ -80,7 +69,8 @@ umgehen läßt, um die gewünschten Felder in geeigneter Form in
 allegro-Felder zu überführen. Dazu ist dann innerhalb von sqltr.job
 ein eigener Abschnitt zu schreiben, aber mehr eben auch nicht, und
 am Beispiel sieht man, wie's geht. Der Job ist ansonsten angemessen
-kommentiert. Schnell besorgen:
+kommentiert (*** an den zu beachtenden Stellen). Schnell besorgen:
+
    X gf sqltr.job
 
 Mit  acon -j sqltr -h  bekommt man kurz die Optionen eklärt.
@@ -90,6 +80,7 @@ dann gibt man mal ein:
   acon -j sqltr -nxyz.cvs -ff     bzw.  -Test  statt -ff
 um die Liste der Felder zu erhalten, bzw. mit -Test die ersten 5 Felder
 jedes Satzes angezeigt zu kriegen.
+Mit Option -ff entsteht eine Datei  xyz.fl  mit der Feldliste.
 Ohne die Option -ff wird eine Datei  xyz.adt  erstellt. Die wird aber
 nur was taugen, wenn man vorher in  sqltr.job  den Abschnitt unter 
 diesen Zeilen:
@@ -104,7 +95,7 @@ der Tabellenspalten ist. Was man damit macht, dem setzt nur die
 FLEX-Sprache Grenzen.
 Der Zeichencode wird von ANSI (gibt SQL normalerweise aus) in ASCII
 gewandelt. Das ließe sich natürlich noch flexibilisieren und
-optionieren.
+optionieren. (Hinweise im Kommentar)
 
 
 
