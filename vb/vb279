@@ -11,38 +11,39 @@ und das Werkzeug für den Umgang damit ist SQL. Alle Dinge der Welt,
 so die ungeschriebene Übereinkunft, lassen sich damit abbilden und
 informatisch handhaben. Dieses Weltbild wird jedoch zunehmend als
 gußeiserne Mechanistik empfunden und der Grundkonsens gerät damit 
-langsam ins Wanken, zumindest stehen die Trendsetter der Suchmaschinen
-und der Discovery-Systeme auf anderen Fundamenten. Man muß nicht gleich
-von einem Gespenst reden, das da nun umginge, aber es geht etwas um, 
-nicht nur in Europa, und sein Name ist NoSQL.
-Das Akronym "NoSQL" ist allerdings kein neues Paradigma mit klaren, 
+langsam ins Wanken, auf anderen Fundamenten stehen zumindest die 
+Trendsetter der Suchmaschinen und der Discovery-Systeme . Man muß 
+nicht gleich von einem Gespenst reden, das da nun umgehe, aber es 
+*geht* etwas um, nicht nur in Europa, und sein Name ist NoSQL.
+Das Akronym "NoSQL" benennt allerdings kein neues Paradigma mit klaren,
 kantigen Konturen, sondern umschreibt eher ein Sammelbecken von 
-heterogenen Konzepten der Datenmodellierung und dem Umgang damit. 
-Manche nehmen's nicht wörtlich, sondern deuten es als "Not only SQL",
-wollen somit die Tabellen nicht gleich in Bausch und Bogen in die
-Obsoleszenz entlassen, ihnen aber doch die Deutungshoheit und der 
-SQL-Sprache das Handlungsmonopol im Kern der Dinge entwinden. 
-Oder anders gesagt, was die Welt im Innersten zusammenhält, das ringt
-man ihr nicht ab mit Hebeln und mit Schrauben, sondern es gibt andere
-Werkzeug- und andere Sprachparadigmen, die in Ausdrucksvermögen, 
-Funktionsspektrum und Performanz dem alternden Monopolisten zur Seite 
-treten können und sollten. Man findet leicht viel Material:
+heterogenen Konzepten der Datenmodellierung samt dem Umgang damit. 
+Manche wollen "NoSQL" nicht wörtlich verstanden wissen, sondern deuten 
+es als "Not only SQL", wollen somit die Tabellen nicht gleich in Bausch
+und Bogen in die Obsoleszenz entlassen, wollen ihnen aber sehr wohl die 
+Deutungshoheit und der SQL-Sprache das Handlungsmonopol im Kern der
+Dinge absprechen. Oder anders gesagt, was die Welt im Innersten 
+zusammenhält, das ringt man ihr nicht ab mit Hebeln und mit Schrauben,
+sondern es gibt andere Werkzeug- und andere Sprachparadigmen, die in 
+Ausdrucksmacht, Funktionsspektrum und Performanz dem alternden 
+Monopolisten zur Seite treten können und sollten und ihm gern auch hier
+und da die Show stehlen. Man findet leicht viel Material:
   Mehr zum Thema: bei Google "nosql" einwerfen.
   Umfängliche Liste von Systemen: http://nosql-database.org
 
-Kurzum, Tabellen sind in der Welt, und zwar vielerorts eben gerade im 
-Kern der Dinge, man sollte sich also mit ihnen rumzuschlagen wissen. 
-Für einen Teil der evtl. anfallenden Aufgaben haben wir seit Jahren  
+Kurzum, Tabellen bleiben in der Welt, und zwar vielerorts eben gerade
+im Kern der Dinge, man sollte sich also mit ihnen rumzuschlagen wissen. 
+Für einen Teil der evtl. anfallenden Aufgaben haben seit Jahren schon 
 den Funktionsbereich "Tabellen erstellen" (h table, ausführlicher
 erklärt in  h tablh).
-Was damit noch nicht abgehandelt ist, daneben gelegentlich aber doch
-vorkommt, das ist der Import von Fremdtabellen, d.h. die Umwandlung von
+Was aber auch gelegentlich vorkommt und damit noch nicht abgehandelt
+ist, das ist der Import von Fremdtabellen, d.h. die Umwandlung von 
 aus SQL-Systemen stammenden Daten in allegro-Daten. In der Sprache des
 Handbuchs (Kap. 11.2 oder h ac11-1) sind das Fremddaten vom Typ B, 
 "Sätze mit fester Feldanzahl". Mit Import wird das ja schon längst oft
-praktiziert, ist manchmal aber recht mühsam, und wer kennt sich schon
-heute noch aus mit der Importsprache? Mit FLEX ist es bisher eher noch
-kniffliger. Und dagegen läßt sich einiges tun.
+praktiziert, doch es ist manchmal recht mühsam, und wer kennt sich 
+schon heute noch aus mit der Importsprache? Mit FLEX ist es bisher eher
+noch kniffliger. Dagegen läßt sich einiges tun.
 
 Konkret sieht das so aus:
 Ein SQL-System kann i.a.R. eine Tabelle in Textgestalt so exportieren:
@@ -52,12 +53,25 @@ Inhalt1-1TABInhalt1-2TABInhalt1-3
 Inhalt2-1TABInhalt2-2TABInhalt3-3
 usw.
 
-Dabei ist TAB der Code 09 und ein Inhalt kann, aber muß nicht, in "..."
-eingeschlossen sein, was bei textuellen Inhalten oft der Fall ist.
-(Wie ein zum Inhalt gehöriges " zu codieren ist, das ist jedoch nicht 
-standardisiert!)  
+Dabei ist TAB der Code 09, und ein Inhalt kann, aber muß nicht, in ".."
+eingeschlossen sein, was bei textuellen Inhalten oft so gemacht wird.
+(Wie ein zum Inhalt gehöriges " zu codieren ist, das zwar nicht streng
+standardisiert; oft wird es schlicht verdoppelt.)
 Mehr:  https://de.wikipedia.org/wiki/CSV_(Dateiformat)
 
+ 
+ 
+More 
+1 of 8,283
+ 
+vb279
+Inbox
+	x
+Bernhard Eversberg <aresqa@gmail.com>
+	
+6:32 AM (0 minutes ago)
+		
+to me
 Ein neuer Job für acon wurde geschrieben:  sqltr.job (SQL table read).
 Er enthält das gesamte Rahmenwerk, um leicht eine SQL-Tabelle der
 genannten Form in allegro-Daten zu wandeln, aber zuerst einmal eine
@@ -77,7 +91,8 @@ dann gibt man mal ein:
 um die Liste der Felder zu erhalten, bzw. mit -Test die ersten 5 Felder
 jedes Satzes angezeigt zu kriegen.
 Ohne die Option -ff wird eine Datei  xyz.adt  erstellt. Die wird aber
-nur was taugen, wenn man vorher in  sqltr.job  den Abschnitt unter
+nur was taugen, wenn man vorher in  sqltr.job  den Abschnitt unter 
+diesen Zeilen:
 
 :vl
 // *** Echtmodus: Auswertung
@@ -90,5 +105,6 @@ FLEX-Sprache Grenzen.
 Der Zeichencode wird von ANSI (gibt SQL normalerweise aus) in ASCII
 gewandelt. Das ließe sich natürlich noch flexibilisieren und
 optionieren.
+
 
 
