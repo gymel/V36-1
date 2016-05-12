@@ -1,0 +1,145 @@
+
+Verlautbarung 280 zur allegro-Entwicklung                    2016-05-21
+-----------------------------------------
+
+Kleinere Verbesserungen, insbes. f. Win'10
+==========================================
+
+
+
+FLEX : if fam ...
+-----------------
+if fam  hat jetzt in acon und a99 gleiche Funktionsweise.
+Achtung: Es wird dabei keine Erg.Menge gebildet, aber 
+die Anzahl der verknuepften Untersaetze steht anschliessend in 
+der iV, das ist neu.
+
+
+acon: Befehl get
+----------------
+get  las nur bis zu ca. 1250 Zeichen. Jetzt 2.000.000
+Diese Groesse ist im Prinzip unnoetig! Denn get ist gedacht fuer
+Textdateien, Zeilen mit solcher Laenge werden kaum je auftreten.
+a99 wuerde aber sogar bis 4 MB lesen.
+
+
+a99: "Mit dem Satz stimmt was nicht"
+------------------------------------
+Diese Meldung brachte a99, wenn die zur Datenbank gehoerige Datei  
+cat.tab  im TEMP-Ordner veraltet ist. (Bzw. statt cat der Name 
+der betr. Datenbank.) Dann steht darin fuer den Satz, der gerade
+gespeichert werden soll, eine falsche Adresse.
+Die Fehlermeldung hat keinen Datenbankfehler als Ursache oder zur 
+Folge, sie verhindert aber das Speichern des betr. Satzes, was
+natuerlich irritieren oder beunruhigen kann.
+Ab jetzt ist es so: Wenn diese Situation eintritt, wird der neue FLEX
+proff.flx ausgefuehrt. Sie erhalten dann weitere Angaben und
+die Wahl, entweder die Offline-Bereich nochmal zu sichten und noch
+einen oder mehrere vorher bearbeitete aber noch nicht gespeicherte 
+Saetze zu speichern, oder den Offline-Bereich unbesehen zu loeschen.
+
+
+FLEX:  var #uxy(b"#nnn") geht nicht
+-----------------------------------
+Wenn man in einem Feld #uxy einen Bereich sucht, der hinter dem Zeichen
+ # beginnt, wird's schwierig.
+Denn das Zeichen # hat bei den Manipulationsbefehlen eine Sonder-
+funktion, beschrieben in  h xcstring.
+
+Was klappt, ist  b"?#...", denn ? ist das Maskierungszeichen und das #
+hat nur auf der Position direkt hinter " seine Sonderwirkung.
+
+
+FLEX NEU : var wm  [nicht in acon]
+----------------------------------
+Jetzt kann man in a99/alcarta auch die Windows-Version abrufen:
+var mw : ergibt Nummer der Windows-Version, und zwar:
+   5 = XP / 6.0 = Vista / 6.1 = 7 / 6.2 = 10
+Hinter der Versionsnummer erscheint in Klammern die "Build"-Nummer.
+
+
+Windows 10: Button-Beschriftungen u.a.
+--------------------------------------
+Problematisch ist bei Windows-Dialogprogrammen die Beschriftung der 
+Buttons. Die Schriftart ist zwar einstellbar, aber das ist schwierig.
+Es ist jetzt wohl hinreichend gelungen, dass man damit leben kann,
+jedenfalls im Hauptfenster.
+Auch die Schrifteinstellungen in Listenfenstern und Eingabefeldern
+sind unbefriedigend gewesen und wurden verbessert. So war es etwa im
+Fenster "Globale Ersetzungen" gar nicht moeglich, die Strg-Phrasen
+zu nutzen. 
+Das Indexfenster zeigt jetzt unter Win'10 28 Zeilen, sonst 24 (wie
+schon bisher). Das liegt an der unterschiedlichen Schriftgroesse im
+Verhaeltnis zur Fenstergroesse.
+
+FLEX neu: set D+/D-
+-------------------
+Damit wird die Schrift im Anzeigefenster sowie in Eingabe- und Listen-
+feldern um eine Stufe vergroessert bzw. verkleinert.
+Tip: Fuer Win'10 in den eigenen _start.flx dies einbauen:
+
+set Dallegro Lucida Console=0
+set D+
+set D+
+
+
+a99/alcarta: Risiko bei Ergebnismengen-Verkleinerungen
+------------------------------------------------------
+Bei manueller Loeschung von einzelnen Eintraegen im Kurzlistenfenster
+der Erg.Menge konnte es geschehen, dass beim Schliessen des Listen-
+fensters a99 in eine Endlosschleife geriet und dann auf nichts mehr 
+reagierte.
+Das wurde behoben.
+
+
+dnb.flx u.a. weiter verbessert : RDA-bedingte Neuerungen!
+---------------------------------------------------------
+Es mehren sich die nach dem "neuen internationalen Standard" erstellten
+Daten, und ueber immer mehr Exempel wurde in der Praxis gestolpert, bei
+denen die Umwandlung des dnb.flx unbefriedigend ausfiel. Wir haben
+nach gemeldeten Erfahrungen etliche Verbesserungen eingearbeitet,
+desgl. in srugbv.flx, z39m.inc, z39.aim und z39i.aim.
+
+
+FLEX-Variablen jb und jf
+------------------------
+Diese neuen Variablen zeigen folgende Werte:
+jb : Laenge des aktuellen Satzes im Arbeitsspeicher
+jf : Laenge des aktuellen Satzes in der Datenbankdatei
+
+
+Neue F8-Funktion: individuelle Notiz zum Datensatz
+--------------------------------------------------
+Es kommt vor, dass sich ein Bearbeiter zu einem bestimmten Datensatz
+eine individuelle Notiz machen will, die andere nicht brauchen oder
+sehen sollen.
+Allgemeine Notizen, die jeder sehen soll oder wissen darf, kann man
+seit je mit im Datensatz speichern, z.B. in einer #81X oder #98Y. 
+Um jetzt private Notizen zu ermoeglichen, die nicht im Datensatz
+stehen, wurde eine Unterfunktion in onf8.flx eingebaut:
+"Notiz zumm Datensatz"    (vorletzte Zeile des Menues)
+Man drueckt also F8, wenn der betr. Datensatz angezeigt ist, dann
+kommt eine Eingabezeile mit der Ueberschrift "Notiz", darunter im
+Eingabefeld der Text. Diesen kann man nun 
+-- aendern und mit Enter wieder speichern
+-- mit Entf Enter loeschen
+-- mit Esc ohne Aktion wieder verschwinden lassen
+Wie funtioniert das?
+Genutzt werden dazu die "Persistenten Variablen", und zwar wird eine
+solche angelegt mit dem Namen
+idnummer-operatorcode
+Wenn also Operator meyer zum Datensatz mit #00 c123 eine Notiz eingibt,
+entsteht im Register 1 von  cat.azx  die Variable  c123-meyer=notiztext
+Die zugehoerige Routine findet man in  onf8.flx  unter :Notiz
+
+Wer keine Datei cat.azx bei seiner Datenbank hat, kopiert sie sich aus
+dem Programm-Ordner in den eigenen Datenbankordner - sie ist leer. Und
+zwar unter dem Namen  dat.bzx  wenn die Datenbank nicht cat heisst
+sondern dat und nicht mit a.cfg arbeitet sondern mit b.cfg.
+Mehr an Vorbereitungen ist nicht noetig. Bei Reorganisation der
+Datenbank bleibt diese zusaetzliche Datei unangetastet. Wenn man sie
+allerdings mal loescht, sind alle Notizen weg.
+Die Sache ist nur ein kleiner Ansatz, der bei Bedarf sicher noch
+funktional weiter ausgebaut werden kann.
+
+
