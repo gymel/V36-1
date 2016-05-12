@@ -129,6 +129,22 @@ var "$R" $Rp " " $gb
 ins
 
 
+var (e"</d338" b"<d338" x"sa") 
+ins $338
+if %Comp% var "Comp.";ins $338
+if %Band% var "Buch";ins $338
+if $338 var "[" $338 "] "
+ins $338
+
+var $gb
+if %Online-Ress% var "[Online] ";ins $338
+if %Elektronische Ress% var "[e-Dok.] ";ins $338
+
+var (e"</d773" b"<d773") 
+if not "" var "[Beitrag] ";ins $338
+
+
+var $gb
 var (e"</d245" b"<d245" x"sa")
 ins $t
 
@@ -140,7 +156,7 @@ var $gb
 var (e"</d260" b"<d260" b"<sc>" e"</sc")
 ins $y
 
-var $list n $Rp ": " $t " / " $a ". " $y
+var $list n $Rp ": " $338 $t " / " $a ". " $y
 ins $list
 
 eval $Rp +1
@@ -150,6 +166,11 @@ ins $Rp
   $Gb verkuerzen: zum naechsten Satz fortschreiten
 var $Gb (b"<zs:recordData")
 ins $Gb
+var ""
+ins $338
+ins $t
+ins $a
+ins $y
 if $Gb jump rloop
 
 
@@ -226,6 +247,12 @@ var $a ", " $c
 var (F", ")
 ins #40
 
+var $gv
+var (x'd130' b"<sa>" e"</")
+ins #22
+if ARtik ins #22
+
+
 
 // Titel: Interpunktion am Ende uneinheitlich, beseitigen!
 var $gv
@@ -265,10 +292,11 @@ ins #39
 
 var $gv
 var (x'd041' b"<sb>" e"</" F":, ")
-   Sprachbez.
- ins _ger_de_
- ins _eng_en_
 ins #37
+
+var $gv
+var (x'd040' b"<sb>" e"</")
+if not "" ins #37
 
 var $gv
 var (x'd250' b"<sa>" e"</" F":, ")
@@ -370,16 +398,26 @@ var (x'd111' e"^T^T" x"sd" f"(")
 ins $sd
 
 var $gv
+var (x'd111' e"^T^T" x"sn" f"(")
+ins $sn
+
+var $gv
 var (x'd111' e"^T^T" x"sc" F")")
 ins $sc
 
-if $sc var #83 " (" $sc ")";ins #83
-if $sd var #83 " : " $sd;ins #83
+if $sn var $sa " ; " $sn;ins $sa
+if $sc var $sa " (" $sc ")";ins $sa
+if $sd var $sa " : " $sd ;ins $sa
+if $sa var $sa;ins #83~
+
 
 
 var $gv
 var (x'd711' e"^T^T" x"sa")
 ins $sa
+var $gv
+var (x'd711' e"^T^T" x"sn" f"(")
+ins $sn
 var $gv
 var (x'd711' e"^T^T" x"sd" f"(")
 ins $sd
@@ -389,6 +427,7 @@ ins $sc
 
 if not $sa jump 883
 
+if $sn var $sa " ; " $sn;ins $sa
 if $sc var $sa " (" $sc ")";ins $sa
 if $sd var $sa " : " $sd ;ins $sa
 if $sa var $sa;ins #83~
@@ -698,17 +737,23 @@ var (b'<d650 i1=" " i2="7"' b'<d650 i1=" " i2="7"' b'<d650 i1=" " i2="7"' e"<d")
 var (b"<s9>" B":" e"</")
 ins $g3
 
+  RDA Art d. Inh.
+var $gv
+var (b'<d655 i1="0" i2="7"' e"<d")
+var (b"<sa>" e"<")
+ins #31f
+
 var $s1
 if $g1 var $s1 ". " $g1
-ins #31
+ins #33s
 
-var $s2
-if $g2 var $s2 ". " $g2
-ins #312
+var #33s "; " $s2
+if $g2 var #33s "; " $s2 ". " $g2
+if $g2 ins #33s
 
-var $s3
-if $g3 var $s3 ". " $g3
-ins #313
+var #33s "; " $s3
+if $g3 var #33s "; " $s3 ". " $g3
+if $g3 ins #33s
 
 
   Pers.SW, mehrere!

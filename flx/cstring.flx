@@ -9,9 +9,11 @@ wri "C : Copy-Verzeichnis (fÅr Sicherungskopie, siehe _BACKUP.FLX /_RESTORE.FLX)
 wri "D : Datenbank-Pfadname (mit \\ am Ende) : " D n
 wri "E : Name der aktuellen Exportdatei : " E n
 wri "G : Name der LOG-Datei (falls nicht Default = " D B ".log) : " G n
+
 var H
 asci
 ins #uvR
+
 wri "H : Liste der Register-öberschriften (Headlines, |-Zeilen in Indexparametern) : " n "    " #uvR(0,50) "..." n
 var I
 asci
@@ -66,6 +68,9 @@ Z = 1
 wri "h : Headline des Registers, dessen Nummer in der iZ steht (vorher setzen, z.B. mit  Z=5) : " n "    " h n
 wri "i : interne Nr. des Datensatzes : " i n
 wri "j : Nummer der .cLD-Datei des Satzes : " j n
+wri "jb : LÑnge des Datensatzes im Arb.speicher : " jb n
+wri "jf : LÑnge des Datensatzes in der Datei : " jf n
+wri "jp : Position in der Datei : " jp n
 wri "k0: Anzahl der Kategorien (Felder) des aktuellen Satzes : " k0 n
 var k0
 if "0" jump nof

@@ -63,6 +63,7 @@ var + n "Tastenfunktionen-Hilfe (F12)"
 if g3 var + n "Ergebnismenge einschr. nach Ersch.Zeitraum"
 if Help var + n "Text im Anzeigefeld als Datei speichern"
 var + n "Letzter Hilfetext (" X ")"
+var + n "Notiz zum Datensatz"
 var + n "HexaDez-Anzeige des aktuellen Satzes"
 set aMomentan mögliche Funktionen
 
@@ -96,6 +97,7 @@ if "I" exec dbinfo
 if "K" exec kalender
 if "Hin" dis res;end
 if "Hex" exec shrec
+if "Not" jump Notiz
 if "P" sho phr;end
 if "Tex" var "dann bitte den Button [Speichern] benutzen";mes;end
 if "T" help he_sp;end
@@ -197,3 +199,21 @@ end
 var "X " X
 exec
 end
+
+:Notiz
+// persist. Var.
+// wenn *.zdx nicht vh, dann .adx
+var D B "." K1 "zx"
+fsize
+if no set &d;
+
+var "&" #00 "-" #op2
+var
+ins #u|T
+ask Notiz:=#u|T
+if cancel end
+ins #u|T
+var "&" #00 "-" #op "=" #u|T
+ins
+
+
