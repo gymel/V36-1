@@ -1,5 +1,5 @@
   d-krtf.apr : a99-Anzeige incl. verkn. Satzstrukturen, tabellarisch
-  2002-02-15 / 2014-01-20   mit ZAboM und ALFA
+  2002-02-15 / 2016-05-20   mit ZAboM und ALFA
   Plus Nachladungen von ueber- und untergeordneten Saetzen
   Wenn keine hierarchischen oder verknuepften Saetze vorkommen,
   dann genuegt einfacheres Modell:  d-srtf.apr
@@ -10,8 +10,6 @@ pn="Hierarchie-Export RTF"
 
   Fuellen Sie die Bereiche zwischen den mit <<<<<<<<<  und >>>>>>>>>
   markierten Zeilen mit Ihren Exportbefehlen aus!
-  Meistens reicht es, den Abschnitt unter Sprungmarke #-Z anzupassen!
-  (siehe ganz unten)
 
   Der aktuelle (anzuzeigende oder auszugebende) Satz wird PRIMAERSATZ genannt.
   Dabei handelt es sich um entweder
@@ -43,12 +41,12 @@ pn="Hierarchie-Export RTF"
   Dieses wird fuer den Nachladevorgang ausgewertet.
 
   *********** Grundparameter, nicht ohne Grund aendern: ***************
-td-rtff   RTF-Steuerbefehle
-tad-aw    ASCII->ANSI Codetabelle
+td-rtff   RTF-Steuerbefehle: Codes f. Attribute und Schriften
+tad-aw    oder utf-rtf.apt : Unicode -> RTF (wenn intern UTF-8)
 
-zl=0      Zeilenlaenge, nicht besonders wichtig!
-           denn es wird kein Zeilenvorschub gemacht:
-ze=" "
+zl=0   Zeilenlaenge, nicht besonders wichtig!
+         denn es wird kein Zeilenvorschub gemacht:
+ze=" "  
 zb=" -"   Umbruch bei Leerz. und Bindestrich
 zm=0      keine Seitenschaltung
 dx=1      Umcodierung einschalten
@@ -63,8 +61,8 @@ i4=1    V14-Ersetzungen ausfuehren
 4="\par "
 
   Tabellen-Parameter RTF              erste Spalte:
-18="\pard\uc1\tx2272\li1800\fi-1800\f4 "       breit
-19="\pard\uc1\tx2272\li1800\fi-1800\f4 "         schmal
+18="\pard\uc1\tx2272\li1800\fi-1800\f4\fs24 "       breit
+19="\pard\uc1\tx2272\li1800\fi-1800\f4\fs24 "         schmal
    \f6 = Schrift 6 = Verdana.  \f0 einstellen, wenn Sonderzeichen noetig
 
   18=""   fuer HTML
@@ -75,9 +73,8 @@ i4=1    V14-Ersetzungen ausfuehren
 21="\i0 \tab "      zwischen zwei Tab.Spalten
 22=""            Ende der Tab.Zeile (bei RTF nichts)
 23=t20 t21
-
-29=""
-28=""
+    nur bei HTML:
+29="\f1""\f0"
 
 
 p .20 "\par \tab "      Absatzende
@@ -89,11 +86,14 @@ p \ "\\"
 
   Hier gehts los
 
+#hi +#uhi
 #t{ "\f6\fs24 " }
 
 #nr dY~ dZ~ e0
 
+#uhi e0
 td-k     d-k.apt laden  (das ist der Hauptteil, gilt f. HTML und RTF)
+to
 #+#
 
    <<<<<<<<< Unterprogramme hier anfuegen, wenn man welche hat <<<<<<<
@@ -101,11 +101,12 @@ td-k     d-k.apt laden  (das ist der Hauptteil, gilt f. HTML und RTF)
    Abschnitt fuer die Intern-Anzeige mit Feldnummern (F5 in a99)
 #-(
 
-#t18
+#t{ "\pard\uc1\tx2272\li580\fi-580\f4\fs24 "       breit
 #nr =aF e0
 
 #t29
-#t{ t4 }
+#t{ t0 }
+
 #nr p"x" e2 =dm
 
 #t{ s0 }       oder 5 statt 4 wenn 3stelliges Schema!
@@ -121,7 +122,9 @@ td-k     d-k.apt laden  (das ist der Hauptteil, gilt f. HTML und RTF)
                oder
  #L            alternativ: Anzeige mit Labels aus der CFG
 #t{ t4 }
+#bks=04
 #t28
+#bp  "\par \tab "
 #+#
 
 
@@ -130,7 +133,7 @@ td-k     d-k.apt laden  (das ist der Hauptteil, gilt f. HTML und RTF)
 #(A
 #00 p{ " ... " t72 "Titeldaten bearb." t104 } e0
 #00 "Titeldaten bearb.!" e"!" =Y~
-#00 "x f1nd ppn " P"\dis\sho rec\form Zeit" =Z~
+#00 "x f1nd ppn " P"\dis\sho rec\exec onforms" =Z~
 #)A
 
 #(B
@@ -142,11 +145,13 @@ td-k     d-k.apt laden  (das ist der Hauptteil, gilt f. HTML und RTF)
 #00 p"x var '|: " P"-al?'\f1nd\dis\sho rec" =Z~
 #)B
 
-  Titeldaten zum Bandsatz anzeigen
+  Titeldaten zum Zs-Bandsatz anzeigen
 #(C
 #t{ t72 t66 "Gesamtdaten anzeigen" t98 t104 }
 #nr "Gesamtdaten anzeigen!" e"!" =Y~
 #9DA $T "x f1nd ppn " P"\dis\sho rec" =Z~
+
+#nr e0
 #)C
 
 #(D
@@ -164,11 +169,14 @@ td-k     d-k.apt laden  (das ist der Hauptteil, gilt f. HTML und RTF)
 #9DA $T "x find |: u-" P"/?\if l1 mes Momentan keine;end\ord d13\sho list" =Z~
 #)D
 
-  Abosatz
+  verkn. Untersatz
 #(E
 #t{ t72 t66 "Gesamtdaten anzeigen" t98 t104 }
 #nr "Gesamtdaten anzeigen!" e"!" =Y~
-#9DA $T "x f1nd ppn " P"\dis\sho rec" =Z~
+#09 +#nr e"+" "x f1nd ppn " P"\dis\sho rec" =Z~
+#00 e"+" "x f1nd ppn " P"\dis\sho rec" =Z~
+
+#nr e0
 #)E
 
 #(F
@@ -181,12 +189,6 @@ td-k     d-k.apt laden  (das ist der Hauptteil, gilt f. HTML und RTF)
 #00 "x f1nd ppn " P"\dis\sho rec\exec z-nband" =Z~
 #)F
 
-#(G
-#t{ t72 t66 "Gesamtdaten anzeigen" t98 t104 }
-#nr "Gesamtdaten anzeigen!" e"!" =Y~
-#9DA $T "x f1nd ppn " P"\dis\sho rec" =Z~
-#)G
-
 #(H
 #9DA +# $$ c"V000" " (Umlauf beendet)!" e"!"      Umlauf schon beendet
 #00 p{ " ... " t72 "bearbeiten" t104 } e0
@@ -197,6 +199,77 @@ td-k     d-k.apt laden  (das ist der Hauptteil, gilt f. HTML und RTF)
 #00 "x f1nd ppn " P"\exec z-heft wg" =Z~
 #)H
 
+#(I
+#8n u e" :" =st
+#t{ t72 "Titel aus dieser Serie" t104 }
+
+#cc p"Titel aus dieser Serie!" e"!" =Y~
+#8n u e" :" p"x find |5 " P" ;?\sho list!" e"!" =Z~
+
+#)I
+
+#(N
+#9B +#9B e0
+#9DG +I i4,V e0
+#9DF e$ p{ t72 "Titelsatz zeigen" t104 " (Nr. " } P")"
+#9DF e$ p"x f1n |9 " P"\dis\sho rec" =Z~
+#9DF p"Titelsatz zeigen!" e"!" =Y~
+
+#uzp +#99Z c"alc" e0      OPAC: kein Kommentar
+#9DF p"x form Exempl\if ca end\var #ubs\ins #9DB\yesno Speichern?\if yes put\if cancel undo\!" e"!" =Z~
+#t{ "   " t72 "Exemplardaten bearbeiten" t104 C }
+#9DF "Exemplardaten bearbeiten!" e"!" =Y~
+
+#99Z
+#)N
+#9B e$ b1 { t4 "Ausweisnr.    :" t72 } P104
+#9B e$ b1 =Y~
+#9B e$ b1 "x f1nd |: B" P"\sho rec\dis" =Z~
+#<
+#9DI +#9B $u "B" |:0
+#)N
+#9B e$ b1 { t4 "Vor-Entleiher :" t72 } P104
+#9B e$ b1 =Y~
+#9B e$ b1 "x f1nd |: B" P"\sho rec\dis" =Z~
+#<
+
+#)N
+
+#-S
+#t{ t20 "Themen:" t21 }
+#nr p"?|3!" e"!" =pf
+#31 p>s e0
+#31s >s e0
+#31g >s e0
+#33B >s e0
+#33L >s e0
+#nr p"?|2" e3 =pf
+#31c >s e0
+#31k >s e0
+#nr p"x ind per " e10 =pf
+#31p >s e0
+#36 >s e0
+#31t >s e0
+#35 ++ p{C t79 "Werk-SW : " #250 t111} m{C} P>X Z
+ #34 ++ p{C t79 "Sonder-SW : " #250 t111} m{C}
+#t{#0}
+#t22
+ #31. ++ e"_" p{ t20 "Themen:  " t21 } m{ t23 }
+ #t22
+ #33s { t20 "FremdSchlagw.:  " t21 } P22
+#+T
+
+#(s   Schlagw.
+#cc =sw
+
+#-&
+#upf =sW
+#usw u e";" e"_" F" " ,"_: _ / _" ,"_\170__" AsW    Bef. wird zus.gesetzt
+#usW 0 =Z~
+#usw e";" e"_" F" " ,"_\170__" =Y~
+#usw C e";" e"_" F" " p{ t72 } P{ t104 }
+#usw +& b";" f" " =sw
+#)s
   ZAboM: Anzeige der zur Zs gehoerigen Abos und Bde
   Typische Eintr.: Abo: |:zzz0081-999909 -Al ab 2007. Lief.: BR
                     Bd: |:zzz0081-999909 -Bl 7992=2008
@@ -221,7 +294,8 @@ td-k     d-k.apt laden  (das ist der Hauptteil, gilt f. HTML und RTF)
 #ux: b" -b" P{"\fs18  -- "} e0
 #ubo p72 P104
 #ubo =Y~
-#ux: "x f1nd |: _" P"\dis\sho rec" =Z~
+  #ux: ist die gefundene Reg.Zeile
+#ux: p'x f1nd |: "_' P'"\dis\sho rec' =Z~
 
   naechste Zeile
 #uzi p"zz" |:9
@@ -243,66 +317,78 @@ td-k     d-k.apt laden  (das ist der Hauptteil, gilt f. HTML und RTF)
 #cc B"\31?" p72 P104
 #)U
 
-   ALFA Ausleihfunktionen, die anklickbaren Flips aufbereiten
-#(c
-#uAL +& e0   ALFA? dann #-È
-#cc B"\31L" ,"_\31s_:_" e$ e" = " p{ t20 "Signatur: " t21 } P22
+   ALFA Ausleihfunktionen: die anklickbaren Flips aufbereiten
+#(c   FLEX fuer ALFA
+
+#uAL +Ë e0   ALFA? dann #-Ë
+#cc ,"_\31s_:_" B$L ~e e$ e" = " p{C "Signatur: " t79 t66} P{t98 t111 ' \qr' C '\ql '}
 
 #uAU +#cc e0   Ausleihangabe nur zeigen, wenn #uAU gesetzt
 #+-
 
-#cc $u p{ t20 "ausgeliehen an: " t21 } P22
+#cc $u p{ "ausgeliehen an: " t66} P{t98 ' \qr' C '\ql '}
 #)c
 
-#-&
-#t{ s0 }    um die Kat.Nummer auswerten zu koennen
-#cc +#90% $u e0    teilfeld u vorh. -> Rueckgabe
+#-Ë
+#bp .35 35   # als Texel-Steuerzeichen abschalten!
+#cc +#90u $u e0    Unterfeld u vorh. -> Rueckgabe
 #cc +#90Å $p e0    keine Ausl., wenn $p
 
    Zur Differenzierung falls gleiche Signaturen
+ #t{ s0 }    um die Kat.Nummer auswerten zu koennen
  #cc b3 e1 { C "\qr " t72 "Ausleihe " }
  #cc e$ b4 P104
+ #t{ s4 }    um die Kat.Nummer auswerten zu koennen
    statt dieser Zeile:
-#uAU +#90@ e0
-#cc +#uci ,"_\31L__" ,"_\31s_:_" B"\31s" e$ e" = " b4 p"Signatur: " p{ C "\qr " }
+#uAL +#90@ e0
+#cc +#uci e$ e" = " b4 p"Signatur: " p{ C "\qr " }
 #90@
-#cc ,"_\31L__" ,"_\31s_:_" B"\31s" e$ e" = " b4 { C t20 "Signatur:   " t21 t72 "Ausleihe " } P{ t104 t22 }
-  #cc p'x var "|;Ausl. " P"an ?=" #uuS\ask\if "" end\yesno Ausleihen?\if n end\if c end\ins #uuS\var #uuS(e"=")\ins $u-!' e"!" =ci
-
-  Die FLEX-Befehlsfolge f. Ausleihe zusammenbauen
+#cc B$s e$ y1 e" =" { C "\qr " t72 "Ausleihe " } P104
+#t{ s0 }    um die Kat.Nummer auswerten zu koennen
 #nr p"x var ''\ins #usn\!" e"!" =ci
 #01 "sub " P"\" Aci
 #02 "sub " P"\" Aci
 #03 "sub " P"\" Aci
 #04 "sub " P"\" Aci
+  nachgeladener Untersatz? Nr als #uci an ausl.flx mitgeben
 #nra b4 p'var "' P'"\ins #usn\' Aci
 #cc e4 p'var "' P'"\ins #usi\exec ausl' Aci
+ entweder:
  #cc b3 e1 =yY          1.Zeichen zur Differenzierung bei gleicher Sign.
  #cc e$ y0 b4 AyY
-#cc ,"_\31L__" ,"_\31s_:_" B"\31s" e$ y0 e" = " b4 =yY
-#uyY y0 b4 p"Ausleihe " =Y~
+ oder:
 #t{ s4 }
-  Befehlsfolge im naechsten  #uZx  speichern
+#cc B$s e$ y0 =yY
+#uyY y0 e" =" p"Ausleihe " =Y~
+
 #uci =Z~
-  und Zw.speicher #uci loeschen
 #uci dci e0
-  Feldanfangspunkt wieder auf Pos. 4
-#t{ s4 }
-  Rechtsbuendig abschalten
+
+#8n P{ "  " t72 "Bd.Ausl." t104 } e0
+#8n p"Bd.Ausl.!" e"!" =Y~
+#8n p"X alfaband a!" e"!" =Z~
+
+#9X P{ "  " t72 "Bd.Rckg." t104 } e0
+#9X p"Bd.Rckg.!" e"!" =Y~
+#9X p"X alfaband r!" e"!" =Z~
+
+#bp .35 8    # wieder einschalten
 #t{C "\ql " }
 #)c
 
-  Rueckgabe
-#90% e0
-#uAU +#cc e0   Rueckgabeflip nur setzen, wenn #uAU gesetzt
+#90u e0    nur Spr.marke
+#uAL +#cc e0   Rueckgabe nur zeigen, wenn #uAL gesetzt
 #nr +#90Å e0
    Zur Differenzierung falls gleiche Signaturen
- #cc b3 e1 { C "\qr " t72 "Ausleihe " }
+ #t{ s0 }    um die Kat.Nummer auswerten zu koennen
+ #cc b3 e1 { C "\qr " t72 "R¸ckgabe " }
  #cc e$ b4 P104
+ #t{ s4 }    um die Kat.Nummer auswerten zu koennen
    statt dieser Zeile:
-#cc ,"_\31L__" ,"_\31s_:_" B"\31s" e$ e" = " b4 { C t20 "Signatur:  " t21 t72 "R¸ckgabe " } P{ t104 t22 }
+#cc B$s e$ y1 { C "\qr " t72 "R¸ckgabe " } P104
 
-#nr p"x yes RÅckgabe?\if not yes end!" e"!" y1 =ci
+#nr p"x yes R¸ckgabe?\if not yes end!" e"!" y0 =ci
+#t{ s0 }    um die Kat.Nummer auswerten zu koennen
 #01 "\sub " Aci
 #02 "\sub " Aci
 #03 "\sub " Aci
@@ -316,11 +402,11 @@ td-k     d-k.apt laden  (das ist der Hauptteil, gilt f. HTML und RTF)
 
  #cc b3 e1 =yY          1.Zeichen zur Differenzierung bei gleicher Sign.
  #cc e$ y0 b4 AyY
-  statt dieser Zeile
-#cc e$ y0 b4 =yY
-#uyY y0 e" = " b4 p"RÅckgabe " =Y~
-
 #t{ s4 }
+  statt dieser Zeile
+#cc B$s e$ y0 =yY
+#uyY y0 p"RÅckgabe " =Y~
+
   Anzeige des Nutzers, auf Wunsch aktivieren
 #uAU +#cc e0
 #nr +#uci e0
@@ -330,9 +416,8 @@ td-k     d-k.apt laden  (das ist der Hauptteil, gilt f. HTML und RTF)
 #t{C "\ql " }
 #)c
 #90Å
-#cc e$ b4 { "\qr Signatur: " }
-#t{ s4 }
-#uaU +#90î e0
+#cc e$ { "\qr Signatur: " }
+#uAU +#90î e0
 #cc $u p" (ausgeliehen)!" e"!"
 
 #90î
@@ -354,18 +439,20 @@ td-k     d-k.apt laden  (das ist der Hauptteil, gilt f. HTML und RTF)
 #nr drA dvF =nr e0
 #nra =nr e0
      #uvF = Verfuegbarkeits-Flag
-#00 +#J1 P":" |:2    erstes laden
-#+-    es gibt keins
+#00 +#J1 P":E" |:2    erstes laden
+#nr +#J5 e0    es gibt keins
 #J1
 #t{ t20 "Exemplare: " t21 }
 #nr +#9DG e0
 #00 P":E" |102
 #-:
-#9DG +#J3 i4,V e0
+
 #9DG $e P". "
-#9DG $s e" ="
-#9DG +#9DH i4,l y0 " \i ausgeliehen bis \i0 !" e"!"
+#9DG $s e" =" p"[" P"]"
+#9DG +#9DH i4,l y0 " \i Ausgeliehen bis \i0 !" e"!"
 #9DG +#J4 i4,W " momentan reserviert !" e"!"
+#9DG +#J4 i4,g " im GeschÑftsgang !" e"!"
+#9DG +#J2 i4,V " Vorgemerkt !" e"!"
 #9DG +#J2 i4,v " Verlust !" e"!"
 #9DG +#J2 $v c"p" " PrÑsenz !" e"!"
   es gibt verfuegb. Ex., Flag setzen
@@ -381,58 +468,34 @@ td-k     d-k.apt laden  (das ist der Hauptteil, gilt f. HTML und RTF)
 #J3
 #<
 #00 +: P":E" |103
+#00 +#J6 e" = " p"t " |:8
+#)X
+#J6
+#00 p{ t4 "Es gibt" t72 "Bestellungen" t104 } e0
+#00 "Bestellungen!" e"!" =Y~
+#00 e" = " p'x var "|: t ' P'?"\find\sho list' =Z~
 #t4
   Vormerk-Flip nur, wenn kein Ex verfuegbar 
 #uvF +#J5 e0
-#nr p72 p"Vormerken!" e"!" 
+
+#nr p22 p"Noch nicht verfÅgbar, !" e"!" 
+#t{ t72 "Vormerken" t104 } 
 #unr y0 p123 P{ 160 125 }
-#unr "Vormerken" =Y~
+#unr "Vormerken!" e"!" =Y~
 #00 p"X a-ovorm " =Z~
 #J5
 #unr dnr e0
 #)X
 
-#(t
-#t{ " --- " }
-#(T
+#(Y
+#t{ t72 "DETAILS" t104 }
+#nr p"X cfga!" e"!" =Z~
+#nr p"DETAILS!" e"!" =Y~
 
- #t{ '<a href="event:a30get.php?urN="' }
- #nra
- #t{ '">Titel:</a>' t66 }
-
-#cc $a e":" |92
-#20
-#8n " (" P")"
-#</
-#t{ t98 t22 }
-#cc $a b":" p{ t20 "Abo:" t21 t66 } P{ t98 t22 }
-#udt ddt e0
-#cc $d p{ t20 "R.Datum:" t21 t66 } =dt
-#udt b6 e2 f"0"
-#udt b4 e2 f"0" "."
-#udt e4 "."
-#t{ t98 t22 }
-#udt ddt e0
-#cc $D p{ t20 "Eingang:" t21 t66 } =dt
-#udt b6 e2 f"0"
-#udt b4 e2 f"0" "."
-#udt e4 "."
-#t{ t98 t22 }
-#cc $Y p{ t20 "Band:" t21 t66 } P{ t98 t22 }
-#cc $p =bT e0
-#cc $t =bT e0
-#cc $c p{ t20 "WÑhrung:" t21 t66 } P{ t98 t22 }
-#cc +#99z $q e0
-#cc $p p{ t20 "GesamtBetrag:" t21 t66 } P{ t98 t22 }
-#99z e0
-#cc $q p{ t20 "GesamtBetrag EUR:" t21 t66 } P{ t98 t22 }
-#cc +#99z $u e0
-#cc $t p{ t20 "TeilBetrag:" t21 t66 } P{ t98 t22 }
-#99z e0
-#cc $u p{ t20 "TeilBetrag EUR:" t21 t66 } P{ t98 t22 }
-#cc $x p{ t20 "Extrakosten:" t21 t66 } P{ t98 t22 }
-#ubT x"+bt" =bt
-#)T
-#)t
+#)Y
 
    >>>>>>>>> Ende der Unterprogramme >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+#-}
+  Hier evtl. etwas zum Abschluss des Ganzen
+

@@ -43,7 +43,7 @@ pn="Hierarchie-Export HTML"
   Dieses wird fuer den Nachladevorgang ausgewertet.
 
   *********** Grundparameter, nicht ohne Grund aendern: ***************
-td-htm      HTM-Steuerbefehle
+td-html      HTM-Steuerbefehle
          xxx Aktivieren, wenn intern ASCII, extern UTF-8
 p & "&amp;"
 p < "&lt;"
@@ -118,9 +118,9 @@ td-k          d-k.apt laden
    ALFA
 #(c
         Diese Zeile aktivieren, wenn ALFA gewuenscht
-#+&    (falls ALFA stets gesetzt sein soll, ohne #uAL zu pruefen)
-#uAL +& e0   ALFA? dann #-&
-#cc ,"_\31L__" ,"_\31s_:_" e$ e" = " p{ t20 "Signatur: " t21 } P22
+#+%    (falls ALFA stets gesetzt sein soll, ohne #uAL zu pruefen)
+#uAL +% e0   ALFA? dann #-%
+#cc e" = " ,"_\31L__" ,"_\31s_:_" e$ e" = " p{ t20 "Signatur: " t21 } P22
 
 #cc $D y0 p" <font color=red> <i>ausgeliehen!</i></font>" e"!"
 
@@ -131,7 +131,7 @@ td-k          d-k.apt laden
 #cc $u p{ t20 "ausgeliehen an: " t21 } P22
 #)c
 
-#-&
+#-%
 #t{ s1 }    um die Kat.Nummer auswerten zu koennen
 #cc +#90A $u e0    teilfeld u vorh. -> Rueckgabe
 #cc +#90B $p e0    keine Ausl., wenn $p
@@ -173,7 +173,7 @@ td-k          d-k.apt laden
 #usP P"a"
 #t{ '">' }   beendet <a... 
   jetzt die Sign, / ZgNr
-#cc ,"_\31L__" ,"_\31s_:_" e$
+#cc ,"_\31L__" ,"_\31s_:_" e$ e" = "
 #t{ '</a>' }
   Zaehler
 #usP x"+1" e"." =sP
@@ -185,8 +185,7 @@ td-k          d-k.apt laden
    Zur Differenzierung falls gleiche Signaturen
  #cc b3 e1 { C "\qr " t69 "Ausleihe " }
  #cc e$ b4 P68
-   statt dieser Zeile:
- #cc e$ b4 { C t20 "Signatur:  " t21 t69 "[ausgeliehen] " } P{ t68 t22 }
+
 #90C e0
 #t{ C t20 "Signatur:   " t21 '<span id="s' }
 #usP b3
@@ -195,7 +194,7 @@ td-k          d-k.apt laden
 #+q
 
 #90B e0
-#cc e$ b4 { t20 "Signatur: " t21 }
+#cc e$ e" = " b4 { t20 "Signatur: " t21 }
 #t{ s4 }
 #uaU +#90C e0
 #cc $u p" (ausgeliehen)!" e"!"
@@ -226,6 +225,73 @@ td-k          d-k.apt laden
 #t{ s4 }       oder 5 statt 4 wenn 3stelliges Schema!
 
 #+#
+
+  Exemplarsachen
+#(N
+#9B +#9B e0
+#9DG +I i4,V e0
+ #9DF e$ p{ t72 "Titelsatz zeigen" t104 " (Nr. " } P")"
+ #9DF e$ p"x f1n |9 " P"\dis\sho rec" =Z~
+ #9DF p"Titelsatz zeigen!" e"!" =Y~
+
+ #uzp +#99Z c"alc" e0      OPAC: kein Kommentar
+ #9DF p"x form Exempl\if ca end\var #ubs\ins #9DB\yesno Speichern?\if yes put\if cancel undo\!" e"!" =Z~
+ #t{ "   " t72 "Exemplardaten bearbeiten" t104 C }
+ #9DF "Exemplardaten bearbeiten!" e"!" =Y~
+
+#99Z
+#)N
+
+#9B e0
+#t{ t20 "Ausweisnr.: " t21 } 
+#9B e$ b1 
+#t22
+#<
+#9DI +#9B $u "B" |:0
+#)N
+#9B e$ b1 { t20 "Vor-Entleiher :" t21 } P22
+#<
+
+#)N
+
+
+#-S
+#t{ t20 "Themen:" t21 }
+#nr p"?|3!" e"!" =pf
+#31 p>s e0
+#31s >s e0
+#31g >s e0
+#33B >s e0
+#33L >s e0
+#nr p"?|2" e3 =pf
+#31c >s e0
+#31k >s e0
+#nr p"x ind per " e10 =pf
+#31p >s e0
+#36 >s e0
+#31t >s e0
+#35 ++ p{C t79 "Werk-SW : " #250 t111} m{C} P>X Z
+ #34 ++ p{C t79 "Sonder-SW : " #250 t111} m{C}
+#t{#0}
+#t22
+ #31. ++ e"_" p{ t20 "Themen:  " t21 } m{ t23 }
+ #t22
+ #33s { t20 "FremdSchlagw.:  " t21 } P22
+#+T
+
+#(s   Schlagw.
+#cc e"_" =sw
+
+#-&
+#upf =sW
+#usw u e";" F" " ,"_: _ / _" ,"_\170__" AsW    Bef. wird zus.gesetzt
+
+#usw C e";" e"_" F" " p{ t72 "javascript:reqInd('|3 " } P{ "')" t104 }
+#usw e";" e"_"
+#t{ t97 "; " }
+#usw +& b";" f" " =sw
+
+#)s
 
 
 
@@ -262,7 +328,7 @@ td-k          d-k.apt laden
 #9DG +#J4 i4,W " momentan reserviert !" e"!"
 #9DG +#J2 i4,v " Verlust !" e"!"
 #9DG +#J2 $v c"p" " Pr„senz !" e"!"
-#9DH +#9DH P{ t88 " ausgeliehen bis " t87 } e0
+#9DH +#9DH P{ t73 " ausgeliehen bis " t105 } e0
   es gibt verfuegb. Ex., Flag setzen
 #dt +#J2 =vF e0
 #9DH $R b6 e2 P"-" 
@@ -288,5 +354,8 @@ td-k          d-k.apt laden
 
 #)X
 
+#(Y
+#t{ ' [<a href="javascript:reqJob(' "'cfga');" '">Details</a>]' } 
+#)Y
    >>>>>>>>> Ende der Unterprogramme >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
