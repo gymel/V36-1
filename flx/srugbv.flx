@@ -291,12 +291,12 @@ var (x'd245' b"<sc>" e"</")
 ins #39
 
 var $gv
-var (x'd041' b"<sb>" e"</" F":, ")
+var (x'd041' b"<sa>" e"</" F":, ")
 ins #37
 
 var $gv
 var (x'd040' b"<sb>" e"</")
-if not "" ins #37
+if not #37 ins #37
 
 var $gv
 var (x'd250' b"<sa>" e"</" F":, ")
@@ -522,11 +522,11 @@ if #818 var #818(b"--");ins _, _:_;ins #819
 
 var $gv
 var (x'd520' x"sa")
-ins #98
+ins #93
 
 var $gv
 var (x'd505' x"sa")
-ins #93
+ins #93~
 
 
   773 -> #84
