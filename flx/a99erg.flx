@@ -1,0 +1,77 @@
+  a99erg.flx : sendet Anforderung f. Erg.Menge
+  2016-05-13
+  Aufruf:  X a99erg   oder   X a99erg suchbefehl (z.B. X a99erg per shakespeare?)
+
+  Wurde mit Befehl aufgerufen? (dann ist IV nicht "")
+if not "" jump beginn
+
+  wenn ohne, dann abfragen
+ask Suchbefehl?=#urF
+if "" end
+if not =#urF jump beginn
+
+yes Diese Liste erneut zeigen?
+if yes jump v
+if canc end
+
+:beginn
+ins #urF
+
+include a99svi.inc
+  enth. die Basis-URL $burl f.d. Aufruf von a99erg.job
+  hinzugef. wird der Jobname a99erg und der Suchbefehl
+var $burl "a99erg&VurF=" #urF
+
+  Output holen
+get I
+  Bereinigen
+  Code 13 raus
+ins _^M__
+  Leerzeilen raus
+ins _^J^J_^J_
+var (f"^J" e"_!_")
+  statt 10 wieder 13 10 wg. VwList, sonst wird letztes Zeichen nicht gezeigt
+ins _^J_^M^J_
+
+  Zeilen jetzt mit ^J getrennt, alle von gleicher Lange (das macht a99erg.job)
+ins $o
+ins $O
+  Wenn Output mit " Sorry beginnt, hat's nicht geklappt: Meldung anzeigen, Ende
+if " Sorry" mes;end
+
+  Viewdatei oeffnen
+  [hier ausbauen: jedesmal neuer Name, damit man auf aeltere Erg.Mengen zurueckgreifen kann]
+open x erg.vw
+  Output reinschreiben
+wri $o
+close x
+
+  ViewListe anzeigen
+:v
+View erg
+if "" end
+clo v
+  gewaehlte Zeile in $v tun
+ins $v
+
+  beginnt mit N und Satznummer -> diese in $z tun
+var (f"N" e"|")
+eval
+ins $z
+var $v (b"|")
+ansi
+ins $v
+  Zeile zeigen und fragen
+var "Ausgewählt:" n $v n "Diesen Satz zeigen?"
+yes
+if canc end
+if no jump v
+  wenn a, dann mit a99get.flx+a99get.job den Satz kommen lassen
+var "a99get " $z
+  Ausfuehren (dieser FLEX endet dann)
+exec
+
+
+:nix
+var "Kein Ergebnis, sorry. Stimmt die Basis-URL: " $url "?"
+mes

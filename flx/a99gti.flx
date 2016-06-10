@@ -1,0 +1,33 @@
+
+include a99svi.inc
+
+var $burl "a99gti"
+
+get I
+
+ins _^T_^M^J_
+var (F"^M^J")
+ins $i
+var ""
+ins $I
+
+:loop
+var $i (e"^M^J")
+ins $j
+var $j (e" ")
+ins $k
+var $j (b"=")
+ins $l
+
+var $I n $k " " $l
+ins $I
+var $i (b"^M^J")
+ins $i
+if not "" jump loop
+
+var $I (f"^M^J")
+ins $I
+
+Aresqa
+mes
+

@@ -1,0 +1,60 @@
+  a99get.flx : sendet Anforderung f. 1 Datensatz
+  2016-05-13
+  Aufruf:  X a99ind   oder    a99ind suchbefehl (z.B. per shakespeare)
+
+  Aufruf mit Nummer?
+if not "" jump beginn
+
+  sonst abfragen
+ask Interne Satznr?=#urN
+if "" var "1"
+
+
+:beginn
+ins #urN
+
+include a99svi.inc
+  enth. die Basis- $url f.d. Aufruf von a99ind.job
+  hinzugef. wird der Jobname und die Satznr
+var $burl "a99get&VurN=" #urN
+
+  Output holen
+get I
+  Bereinigen
+  Code 13 raus
+ins _^M__
+  Leerzeilen raus 
+ins _^J^J_^J_
+var (f"^J")
+  Zeilen mit ' ' am Anfang gehoeren zur vorigen Zeile
+ins _^J _ _
+ins _^T__
+
+
+  Zeilen jetzt mit ^J getrennt
+ins $o
+
+  zeigen und fragen
+ansi
+sho IV
+yes Satz übernehmen?
+if not yes end
+
+  Satz als Neusatz in den Arbeitsspeicher und anzeigen
+new 0
+var $o
+ins
+  #8e URL soll kein Leerz. enthalten
+var #8e
+ins _ __
+ins #8e
+sho rec
+disp
+
+mes Satz jetzt bearbeiten und speichern oder löschen
+
+end
+
+:nix
+var "Kein Ergebnis, sorry. Stimmt die Basis-URL: " $url "?"
+mes
