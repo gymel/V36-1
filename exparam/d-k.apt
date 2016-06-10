@@ -50,11 +50,8 @@
 #8n +8 e0
 #00 +8 i4,z e0
 #00 e"+" P"+" |98
-#t{ "   " t72 "Hierarchie-Liste" t104 }
 
-#09 +#nr e"+" p"x fin |9 " P"?\order a0\sho list" =Z~
-#00 e"+" p"x fin |9 " P"?\order a0\sho list" =Z~
-#nr p"Hierarchie-Liste!" e"!" =Y~
+#>J
 
 #-8
 #hi +0 e0
@@ -70,7 +67,7 @@
 #+@
 
 #-0
-    Ist alternat. Flag gesetzt? dann #-(
+    Ist alternat. Flag gesetzt? dann #-(  (Ausg. im Internformat)
 #uaF +( e0
 
    Wenn der aktuelle Satz ein Untersatz alter Art ist,
@@ -88,6 +85,8 @@
 
 #9A +V e0
 #9B +U e0
+#3n +#3n { t79 t66 "Sach-Stammsatz " t98 t111 } e0 P4
+
 
 #9DA +I i4,V e0   // Umlaufsatz
 #9DB +m i4,B e0   // Bandsatz
@@ -101,11 +100,13 @@
 #9C c"abo" P{ t79 t66 "Laufende Zeitschrift" t98 t111 C } e0
 #uzt dzt e0
 
-#20 +a e" : " =zt
-#8n +a e" : " =zt
-#19 +a e" : " =zt
+#19 +a =zt e0
+#20 +a =zt e0
+#8n +a =zt e0
 
-#4n +P e0
+#4n +#4nj e0
+#6n +#6nj e0
+#2n +#2nj e0
 
   andere Saetze: #-(   (in d-krtf.apr)
 #>Y
@@ -147,7 +148,7 @@
         dann ist der Hauptsatz wieder der aktuelle Satz
 #99z >E e0     Link "Hierarchieanzeige", #nra ist jetzt gesetzt!
 
-#90 e" = " >c e0    Wenn Sign. d. uebergeordn. Satzes AUCH erscheinen soll
+ #90 e" = " >c e0    Wenn Sign. d. uebergeordn. Satzes AUCH erscheinen soll
 
   Was jetzt kommt, bezieht sich auf den Hauptsatz:
   <<<<<<<<<  hier einsetzen, was mit dem Hauptsatz geschehen soll <<<<<<<
@@ -235,18 +236,19 @@
                              und zum aktuellen Satz machen
 
 #+}   ENDE, d.h. wenn es keine #00 gibt, STOP
-      #-} ist in d-X.apr 
+      Marke #-} ist in d-X.apr 
 
    **** Untereinheiten abarbeiten (zyklisch!)  ***
 
 #-g
 #nra "#99z" M    interne Nr. d. nachgeladenen Satzes
-#00 +#90X b"+" B"=" { t20 t65 "Band: " t111 t21 t66 } P{ t98 t22 }
-#09 +#90X b"+" B"=" { t20 t65 "BAND: " t111 t21 t66 } P{ t98 t22 }
+
+#09 +#J1 c"+" b"+" B"=" { t20 t65 "BAND: " t111 t21 t66 } P{ t98 }
+#00 b"+" B"=" { t20 t65 "Band: " t111 t21 t66 } P{ t98 }
 
    <<<<<<< hier einsetzen, was mit den Untereinheiten passieren soll <<<<<<<
-#90X e0
-
+#J1 e0
+#t22
 #nr =zd
 
 
@@ -276,14 +278,14 @@
 #-z
 
   #(A nicht f. Untersaetze
-#hi +#90. e0
-#00 +#90. c"+" e0
-#09 +#90. c"+" e0
+#hi +#90 e0
+#00 +#90 c"+" e0
+#09 +#90 c"+" e0
 #>A    Flip "Titeldaten bearb."
-
   ALFA steckt in UP #(c  in d-khtm.apr bzw. d-krtf.apr
-#90. ++ p>c m>c
-#90. +#52 e0 P22
+
+#90 p>c
+#90 +#52 e0 P22
 
 #91 p>c       ZgNr. zum Ausl. nutzen, falls keine Signatur
 
@@ -293,21 +295,15 @@
 
 #40. ++ e" = " p{ t20 "Verfasser:" t21 } m{ "; " }
 #40. P22 e0
+#40. +#uzt P22 e0
 #41. ++ e" = " p{ t20 "Hrsg.:" t21 } m{ "; " }
 #42. ++ e" = " p{ t20 "beteiligt:" t21 } m{ "; " }
-#41. +#8n P22 e0
-#42. P22 e0
 
-#8n +#18 =zt
-#20 +#18 =zt
+  Titel steckt in #uzt
 
-#18 +#71 { t20 "Titel:   " t21 t66 } P{ t98 t22 }
-#19 +#20 { t20 "Titel:   " t21 t66 } P{ t98 t22 }
-
-#20 p22 e" : " { t20 "Titel:   " t21 t66 } P{ t98 }
-#20 b" : " p" : "
-
-#20 p22 e0
+#uzt e" : " { t20 "Titel:   " t21 t66 } P{ t98 }
+#uzt b" : " p" : "
+#uzt P22 e0
 
   RDA: Datentraegertyp
 #77.1 i6,c " [Computerdaten]!" e"!"
@@ -315,32 +311,32 @@
 #77.1 i6,v " [Video]!" e"!"
 #77.1 i6,h " [Mikroform]!" e"!"
 
+#18 +#71 e0
+#19 +#24 e0
+
+#20 +#24 e0
 #8n { t20 "Zs.Titel:" t21 t66 } P{ t98 t22 }
+
+#24 { t20 "Paralleltit.:" t21 } P22
 #23 { t20 "Nebentit.:" t21 } P22
 #23r { t20 "EZB-Titel: " t21 } P22
 #22 { t20 "Orig.Titel:" t21 } P22
 
-#uko dko e0
-#60 p"K”rp.!" e"!" =ko
-#uko p20 P21
-#60 P22
-#uko dko e0
-#61 p"K”rp.!" e"!" =ko
-#uko p20 P21
-#61 P22
+#39 +#uko { t20 "Verantwortlich: " t21 } P22
 
 #61i { t20 "Orch.: " t21 } P22
 #57d { t20 "Dirig.: " t21 } P22
 #57i { t20 "Solisten: " t21 } P22
 
-
+#uko dko e0
+#60 p"Urheber:!" e"!" =ko
+#uko p20 P21
+#60 P22
+#uko dko e0
+#61 p{ t20 "beteiligt: " t21 } P22
 
 #71 { t20 "Ausgabe: " t21 } P22
 #72 { t20 "Reprint: " t21 } P22
-
- #76 { t20 "JAHR:    " t21 t66 } P{ t22 t98 }
-
- #75 { t20 "Verlag:  " t21 } P22
 
   Impressum in #uim zusammensetzen
 
@@ -348,15 +344,15 @@
 #74 e"" Aim
 #75 p" : " Aim
 #76 p", " Aim
-#uim p20 p"erschienen: !" e"!" P21
-
-#uim dim f",: " P22
+#uim p20 p"erschienen: !" e"!" 
+#uim f" " dim p21 
 
 #73.1 { t20 "Entstehung:" t21 } P22
 #73.2 { t20 "Vertrieb:" t21 } P22
 #73.3 { t20 "Herstellung:" t21 } P22
 #73.4 { t20 "Copyright:" t21 } P22
 
+  Titel des enthaltenden Werkes
 #84 { t20 "In:" t21 } P22
 
 #76p { t20 "Verlauf:  " t21 } P22
@@ -365,34 +361,39 @@
 
  #8n
   Satztyp? nur #uzc = Hauptsatz durchlassen
-#uza +9 e0
-#uzb +9 e0
+ #uza +9 e0
+ #uzb +9 e0
  #uzc +9 e0
-#uzd +9 e0
+ #uzd +9 e0
  #nra +9 e0
 
-
-#8n +#8n e0
-#+9
-#8n +#00 p{ t4 "   " t72 "Liste der Themenhefte" t104 } e0
- #nr +8 e0
-
-#00 e"+" p"x find |9 " P"+?\if g0 sho list;end\var '|5 ' #8n ' ;?'\find\if g0 sho list;end;mes sorry" =Z~
-#t4
-#8n p"Liste der Themenhefte!" e"!" =Y~
-
 #-9
+
+#8n +h e0    Zeitschrift? Dann gibt's keine Quellenangaben #70...)
+
    ******** Quellenangabe bei Aufsaetzen ***********
-#70 +#8n i4,_ e";" F" " P"  " |52    wenn #70 _kuerzel : nachladen
-#70 +#70 e";" C p"In: "   wenn  #70 text  vorkommt, ausgeben, weiter bei #702
+#70 +h e0    wenn  #70 text  vorkommt, ausgeben
+
+#70c +#J1 e0
+#70i +#J1 e0
+#nr +h e0
+
+#J1
+#t{ t20 "In: " t21 } 
+
 !70c +#8n e6 p"C" P" " |92        in #70c steht CODEN?
+
                        danach wird im Index 9 gesucht und der Satz geladen.
-#70i +#8n e9 p"I" P" " |92         wenn kein CODEN, dann ISSN?
+#70i +#8n e9 p"I" P" " |92          wenn kein CODEN, dann ISSN?
+
 #+h   nichts davon: weiter bei #-h
-#8n +#70 C p{ t20 "In: " t21 }   der geladene Ansetzungstitel aus #8n wird genommen
+
+#8n +#J1 p""   der geladene Ansetzungstitel aus #8n wird genommen
             hier #8n1... einsetzen, wenn Zitiertitel 1 u.a. gewuenscht!
-#20 C e" :" p{ t20 "In: " t21 }     wenn #8n nicht besetzt, dann #20
-#70 e0    nur als Sprungmarke
+#20 C e" :"      wenn #8n nicht besetzt, dann #20
+
+#J1 e0    nur als Sprungmarke
+
 #<               zurueckschalten, dann die Aufsatzdaten
 #70 +h b";" f" " p" ; "      #70 titel ; heft...    ODER:
 #702 p" [" P"]"    ELand  diese Angaben koennen hier beliebig anders
@@ -402,12 +403,10 @@
 #706               Heft
 #708 p8 p"S. "
 #t22
+
 #-h
 
-
-#8e. ++ p>U m>u
-
-#83. ++ p{ t20 "Event:   " t21 } m{ t23 }
+#83. ++ p{ t20 "Tagung:   " t21 } m{ t23 }
 #83. P22 e0
 #85. ++ p{ t20 "Serie:   " t21 } m{ t23 }
 #85. P22 e0
@@ -415,9 +414,11 @@
 #88 { t20 "ISSN:" t21 } P22
 #88z { t20 "E-ISSN:" t21 } P22
 #88L { t20 "L-ISSN:" t21 } P22
+
+#8e. ++ p>U m>u
+#8e. p" " e1 P{ t4 t18 }
 #92 { t20 "Bestand:" t21 } P22
 #>w
-
 
 #70 +#704 { t20 "In:" t21 } P" "
 #+u
@@ -428,6 +429,23 @@
 #70 P22 e0
 
 #-u
+
+#>%
+
+  wenn Zs, dann schauen ob Themenhefte
+#00 +#J1 i4,z e"+" P"+" |98 e0
+#8n +#00 
+#nr +#31f e0
+#00 +#J1 e"+" P"+" |98 e0
+#nr +#31f
+
+#J1
+#>T    Liste der Themenhefte
+
+#31f p{ t20 "Art des Inhalts: " t21 } P22
+
+#31f p"#31f" e4 M
+
    Weitere Felder
    Muster fuer wiederholbare Felder:
   Themen (in d-k*.apr)
@@ -442,9 +460,12 @@
 
 #98 { t20 "Hinweise:" t21 } P22
 
-#3n { t20 "Stammsatz: " t21 } P22
+  Weitere Signaturen
+#90 0 =sf e0    flag setzen fuer #(c
+#90 ++ p>c m>c
+#usf dsf e0
 
-#00 >X e0    Exemplare, Bestellungen
+#>X    Exemplare, Bestellungen
 
 #99n e0
 
@@ -466,8 +487,9 @@
   gezielte Rueckspruenge, je nachdem, welches #uzi besetzt ist!
 #uza +á dza e0
 #uzb +é dzb e0
-#uzc +ó dzc e0
 #uzd +ú dzd e0
+#00 +} i4,z e0     bei Zs. nicht, sonst Schleife
+#uzc +ó dzc e0
 #+}
 
   Bandsatz
@@ -480,31 +502,33 @@
 
 #-n
  #</
-#t{ t13 t13 t79 t66 "Band-Satz" t98 t111 }
+#t{ t20 t79 t66 "Band-Satz : " t98 t111 t21 }
+
+#9DG $b P"."
+#9DG $Y
 
 #>D    Flips f. Heftfunktionen
 
-
 #t22
+
 #9DG z { t20 "Zg.Nr.: " t21 t66 } P{ t98 t22 }
- #t{ t20 "von: " t21 }
- #9DA T |92
- #8n P" / "
- #20 
- #t22
+
 #9DN 0 =hf e0
-#9DU { t20 "Umlauf: " t21 } P22
-#>w
+#9DU { t20 "Umlaufende Hefte: " t21 } e0
+
+#>w     externe Datei zur Zs.
 
   Heftliste
+
 #-j
 #uhf e"/" C p{ t20 "   " t21 } P". ("
+
 #uhf >h 
 #uhf ")" e1
 #t{ t22 }
 #uhf +j b";" =hf
+#t22
 #uhf dhf e0
-#>w
 #9DA +n J P"-bl" |:3
 #</
 #+}
@@ -513,7 +537,7 @@
 #nr "æ" =zZ
 
 #>E    Flip "Gesamtdaten"
-
+#t{ "AAA" }
 #9DA +z T |92
  #t{ t20 "von: " t21 t66 }
  #9DA T |92
@@ -523,7 +547,7 @@
 
 #-l
  #</
-#t{ t13 t13 t79 t66 "Abonnement" t98 t111 }
+#t{ t20 t4 t79 t66 "Abonnement" t98 t111 t21 t22 }
 
  #>F   Flips f. Abo
 
@@ -563,36 +587,14 @@
 #9DB i4,9 p"  Status: unvollst. inv.!" e"!" Aaa
 #9DB i4,A P{"  Status: " t79 "Abonnement" t111 } daa e0
 #9z e0
-#9DB +#9DA i4,B p"  Zs-Bandsatz!" e"!" P4
+#9DB +#J1 i4,B p"  Zs-Bandsatz!" e"!" P4
 #uaa daa
 #t{ " ***" t4 C }
  ----------------
-#9DA $T p"x f1n |9 " P"\dis\sho rec" =Z~
-#t{ t72 "Titelsatz" t104 }
-#9DA "Titelsatz!" e"!" =Y~
-#9DB +#9Dx I4,3 I4,4 e0
-#t{ t72 "Bestellung modifizieren" t104 }
-#9DA "Bestellung modifizieren!" e"!" =Y~
-#9DA $T p"x form Bestell\if ca end\depos D\var #ubs\ins #9DB\yesno Speichern?\if yes put\if cancel undo\!" e"!" =Z~
-#9Dx
-#9DB +#9Dy i4,6 e0
-#9DB +#9Dy i4,7 e0
-#9DB +#9Dz i4,A e0   Abo
-#9DB +#9Db i4,B e0   Band
+#J1
 
-#9DA $T p"X o-invent.flx!" e"!" =Z~
-#t{ t72 "Inventarisierung" t104 }
-#9DA +#9Dy "Inventarisierung!" e"!" =Y~
-#9Dz
-#9DA $T p"X o-func.flx!" e"!" =Z~
-#t{ t72 "Abo-Funktionen" t104 }
-#9DA +#9Dy "Abo-Funktionen!" e"!" =Y~
-#9Db
-#9DA $T p'x var "|9 " #9DA$J\find\shorec\dis!' e"!" =Z~
-#t{ t72 "Abo-Daten" t104 }
-#9DA +#9Dy "Abo-Daten!" e"!" =Y~
+#>P   Inventarisierung, Abo...
 
-#9Dy
 !9DA +#9Da y0 $T C y2 |92     Laden Titel
 #9DA +#9Db y0 $T C p"keinen passenden Titel gefunden zu: !" e"!" P{C "-"*79 C}     Fehlermeldung
 #9Da                               (nur Sprungmarke)
@@ -710,16 +712,17 @@
 
 
 #9Ap
-#9A $n C p{ t20 "Auftraggeber: " t21 } P22         Name
+#9A $n C p{ t20 "Auftraggeber: " t21 }          Name
 #9A $a p", "            Anschrift
-#t1
+#t22
 #<+”
   *********** Anzeige des nachgeladenen Lieferanten im Bestellsatz
 #9AL
-#9A $n C p{ t20 "Lieferant: " t21 } P22             Name
+#9A $n C p{ t20 "Lieferant: " t21 }              Name
 #9A $a p", "                        Anschrift
 #9A $l p", "                        Land
-#t1
+#t22
+
 #<+
 
   *********** Anzeige des Kontingencodes im Bestellsatz
@@ -863,12 +866,11 @@
     #+I
 
 #+ƒ
+
 #uab e0
 #uzp +#uzp c"alc" e0
 #t { " f. Leser" }
- #9DH $u p72 P104
- #9DH $u =Y~
- #9DH $u "x f1nd |: B" P"\sho rec\dis" =Z~
+#>V
 #uzp e0
 #+–
 
@@ -927,7 +929,7 @@
 #9B e"" b1 p{ t20 "Id.: " t21 } P22
 #+}
 
-#-V   verteiler
+#-V   Viele Satztypen
 #t{ t79 t66 "Systemsatz" t98 t111 }
 #>Y  (details anzeigen)
 
@@ -983,7 +985,7 @@
 #>Y
 #gn.100 ,"_^_c_ _" p{ t20 "Person: " t21 } P22
 #gn.110 p{ t20 "Koerp.: " t21 } P22
-#gn.111 p{ t20 "Event: " t21 } P22
+#gn.111 p{ t20 "Tagung: " t21 } P22
 #gn.130 p{ t20 "Titel: " t21 } P22
 #gn.400 ,"_$$P__" ,"_$$v__" p{ t20 "auch: " t21 } P22
 #gn.410 p{ t20 "auch: " t21 } P22
@@ -1002,20 +1004,61 @@
 #+#
 
 
-#-P    Stammsatz fuer Personennamen
+#3n b1 { t20 t66 "Begriff etc." t98 t21 } 
+#3n i4,l p" [Sprache]!" e"!"
+#3n +#4nj i4,s i5,p p" [Pers.Schlagwort]!" e"!"
+#3n i4,s i5,s p" [Sachschlagwort]!" e"!"
+#3n i4,g p" [GeoCode]!" e"!"
+#3n i4,h p" [Epoche]!" e"!"
+#3n i4,c p" [Sachgruppe]!" e"!"
+#3n i4,d p" [DK-Notation]!" e"!"
+#3n i4,b p" [BK-Notation]!" e"!"
+#3n i4,a p" [Aufstellungsgruppe]!" e"!"
 
+
+#t22
+#3na { t20 "auch:" t21 } P22
+#3nr { t20 "siehe auch:" t21 } P22
+#3ng { t20 "GeoCode" t21 } P22
+#3nt { t20 "Anm." t21 } P22
+#3qd { t20 "Dewey" t21 } P22
+#3ql { t20 "LC class" t21 } P22
+#6n. +#J1 e0
+#+#
+
+#4nj e0    Stammsatz fuer Personennamen
 #>Y
-#t{ t66 "Personen-Stammsatz" t98 t4 t4 }
-#4n p66 P98
-#4nd { t4 t79 "   Lebensdaten: " t111 }
-#4na { t4 t79 "          auch: " t111 #250 }
-#4np { t4 t79 "    Pseudonyme: " t111 #250 }
-#4nt { t4 t79 "   wirkl. Name: " t111 #250 }
-#4nr { t4 t79 "    siehe auch: " t111 #250 }
-#4nz { t4 t79 "     Anmerkung: " t111 }
- #8e { t4 t79 " WWW-Angebote:" C } e0
- #8e. >8 m>8 e0
-#+ƒ
+#t{ t20 t66 "Personen-Stammsatz" t98 t21 } P22
+#4n { t20 "Name " t21 } P22
+#4nd { t20 "   Lebensdaten: " t21 } P22
+#4na { t20 "          auch: " t21 } P22
+#4np { t20 "    Pseudonyme: " t21 } P22
+#4nt { t20 "   wirkl. Name: " t21 } P22
+#4nr { t20 "    siehe auch: " t21 } P22
+#4nz { t20 "     Anmerkung: " t21 } P22
+#8e { t20 " WWW-Angebote:" t21 } e0
+#8e. >U m>u e0
+#8e e0 P{ t22 t18 }
+#+#
+
+  An #3n kann auch #6n haengen
+#6nj e0
+#>Y
+#J1
+#t{ t20 t66 "Koerp.-Stammsatz" t98 t21 }
+#6n p66 P98
+#6nd { t4 t79 "   Lebensdaten: " t111 }
+#6na { t4 t79 "          auch: " t111 #250 }
+#6nr { t4 t79 "    siehe auch: " t111 #250 }
+#6nz { t4 t79 "     Anmerkung: " t111 }
+#+#
+
+#2nj e0
+#t{ t4 t66 "Werk-Stammsatz" t98 t4 t4 }
+#2n { t20 t66 "Werktitel " t98 t21 } P22
+#23 { t20 "Nebentitel " t21 } P22
+#2nu { t20 " auch: " t21 } P22
+#+#
 
   Rechnungsdaten Expl.- oder Rechnungssatz
 #(r
@@ -1064,5 +1107,51 @@
 #)R
 #t{ t102 t4 }
 #)r
+
+  Aufloesung einiger Codes anhand Hilfsindex ~z7
+#(%
+#b~z
+#37 0 =cc
+#t22
+#t18
+#ucc +% p{ t20 "Sprache(n)" t21 } e0
+#nr +#0c. e0
+  Code=Klartext im Reg.2 von .azx suchen (in cat.azx)
+#-%
+  wenn z.B.  #37 ger, dann  ~z7Sger=  suchen
+#ucc e" " p"S" P"=" |78
+ die Zeile steht dann in #ux7
+ dann -> #J1
+#ux7 +#J1 b"=" 
+  nicht gefunden: nur Code zeigen
+#ucc e" "
+#J1 
+#ucc b" " p", " e2
+#ucc +% b" " =cc
+#t22
+#ux7 dx7 e0
+
+#0c.1 { t20 "Inhaltstyp: " t21 } e0
+#0c.1 e" " p"C" P"=" |78
+#ux7 b"=" e" ["
+#0c.1 e0 P22
+#ux7 dx7 e0
+
+#77.1 p"Datentr„gertyp!" e"!" y1 =x7 e0
+#ux7 dx7 p20 y0 P21
+
+#77.1 e" " p"M" P"=" |78
+#ux7 b"=" e" ["
+#77.1 e0 P22
+
+
+#b~d
+
+#)%
+
+  leeres UP
+#(.
+#t0
+#).
 
 

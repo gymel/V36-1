@@ -100,32 +100,45 @@ td-k          d-k.apt laden
 
    <<<<<<<<< Unterprogramme hier anfuegen, wenn man welche hat <<<<<<<
    Unterprogramm fuer URL
+
+  Titeldaten bearb. (spaeter)
+#(A
+#t{ "" }
+#)A
+
 #(U
 #t{ t20 "URL:     " t21 } 
 #cc e$ y0 C p'<a href="' P'" target="_blank">'
-#cc B"\31?" e$ y1 P"</a>"
-#t22
+#cc B$u B"\31?" f" " e$ y1 P"</a>"
+
 #)U
 
 #(u
 #cc +- i4,i i5,s i6,i e0
 #t{ t20 " --     " t21 } 
-#cc e$ y0 C p'<a href="' P'" target="_blank">'
-#cc B"\31?" e$ y1 P"</a>"
-#t22
+#cc e$ y0 C p'; <a href="' P'" target="_blank">'
+#cc B$u B"\31?" f" " e$ y1 P"</a>"
+
 #)u
 
    ALFA
 #(c
         Diese Zeile aktivieren, wenn ALFA gewuenscht
-#+%    (falls ALFA stets gesetzt sein soll, ohne #uAL zu pruefen)
+
+#cc +#J1 I3,  e0   #90x
+#usf +#J2 e0       #90
+
+#J1
+
+ #+%    (falls ALFA stets gesetzt sein soll, ohne #uAL zu pruefen)
+
 #uAL +% e0   ALFA? dann #-%
-#cc e" = " ,"_\31L__" ,"_\31s_:_" e$ e" = " p{ t20 "Signatur: " t21 } P22
+#cc e" = " ,"_\31L__" ,"_\31s_:_" e$ e" = " p{ t20 "Signatur: " t21 t79 t66 } P{ t98 t111 t22 }
 
 #cc $D y0 p" <font color=red> <i>ausgeliehen!</i></font>" e"!"
 
-
 #uAU +#cc e0   Ausleihangabe nur zeigen, wenn #uAU gesetzt
+#J2
 #+-
 
 #cc $u p{ t20 "ausgeliehen an: " t21 } P22
@@ -204,35 +217,76 @@ td-k          d-k.apt laden
 
 #)c
 
+#(C
+
+#t{ t72 "javascript:reqRes('|9 " }
+#9DA $T e"+" P"?"
+#t{ "')" t104 "Gesamtdaten anzeigen" t97 }
+#)C
+
+#(D
+
+#9DG $Y B"/" { " ... " t72 t66 "Neues Heft (zu Bd." } P{ ")" t98 t104 }
+ #9DG $Y B"/" p "Neues Heft (zu Bd." P")" =Y~
+ #00 p"x f1nd ppn " P"\dis\sho rec\exec z-heft" =Z~
+ #9DA $J "x f1nd ppn " P"\dis\sho rec\exec z-heft" =Z~
+
+#)D
+
+
+
+  verkn. Untersatz in der Anzeige
+#(E
+
+#t{ "   " t72 "javascript:reqRes('|9 " }
+#09 +#J1 c"+" e"+" P"?"
+#00 e"+"
+#J1 e0 
+#t{ "')" t104 "Gesamtdaten anzeigen" t97 }
+
+
+#nr e0
+#)E
+
+
+
   Internformat-Anzeige:  (a99/alcarta F5)
    Achtung: es darf nicht  ke=""  gesetzt sein, dann geht's nicht
 #-(
-#bp .35 35    Texel
-#bp & &    V23
-#bi5=0
-#bi4=0
 #bze=C
- #bze="<br>" 
 #bks=0
- #bke="<br>" C
+#bi4=-1        V14 aus : keine V14-Ersetzungen
 #t{ s0 }
 
-##                oder
-#bp .35 8
-#bi5=95
-#bi4=1
+##
 #bke=C
 #t{ s4 }       oder 5 statt 4 wenn 3stelliges Schema!
+#bi4=1         V14 wieder ein
 
 #+#
 
-  Exemplarsachen
+  f. mehrteilige
+#(J
+
+#t{ "   " t72 "javascript:reqRes('|9 " }
+#09 +#nr c"+" e"+" P"?"
+#00 e"+" P"?"
+#nr e0 
+#t{ "')" t104 "Hierarchie-Liste" t97 }
+
+#)J
+
+
+
+  Exemplarsachen u.a.
 #(N
+ 
 #9B +#9B e0
-#9DG +I i4,V e0
- #9DF e$ p{ t72 "Titelsatz zeigen" t104 " (Nr. " } P")"
- #9DF e$ p"x f1n |9 " P"\dis\sho rec" =Z~
- #9DF p"Titelsatz zeigen!" e"!" =Y~
+#9DG +#9DI i4,V e0
+
+#9DF e$ p{ '<a href="javascript:reqRes(' 39 "|9 " } P{ 39 ');">[Titelsatz zeigen]</a>' }
+#t4
+
 
  #uzp +#99Z c"alc" e0      OPAC: kein Kommentar
  #9DF p"x form Exempl\if ca end\var #ubs\ins #9DB\yesno Speichern?\if yes put\if cancel undo\!" e"!" =Z~
@@ -253,6 +307,39 @@ td-k          d-k.apt laden
 #<
 
 #)N
+
+  Inventarisierung etc.
+#(P
+
+#9DA $T p{ '<a href="javascript:reqRes(' 39 "|9 " } P{ 39 ');">[Titelsatz zeigen]</a>' }
+
+ #9DB +#9Dx I4,3 I4,4 e0
+ #t{ t72 "Bestellung modifizieren" t104 }
+ #9DA "Bestellung modifizieren!" e"!" =Y~
+ #9DA $T p"x form Bestell\if ca end\depos D\var #ubs\ins #9DB\yesno Speichern?\if yes put\if cancel undo\!" e"!" =Z~
+
+#9Dx
+  ORDER bzzw. ZAboM,  ToDo
+#9DB +#9Dy i4,6 e0
+#9DB +#9Dy i4,7 e0
+#9DB +#9Dz i4,A e0   Abo
+#9DB +#9Db i4,B e0   Band
+
+ #9DA $T p"X o-invent.flx!" e"!" =Z~
+ #t{ t72 "Inventarisierung" t104 }
+ #9DA +#9Dy "Inventarisierung!" e"!" =Y~
+#9Dz
+ #9DA $T p"X o-func.flx!" e"!" =Z~
+ #t{ t72 "Abo-Funktionen" t104 }
+ #9DA +#9Dy "Abo-Funktionen!" e"!" =Y~
+#9Db
+ #9DA $T p'x var "|9 " #9DA$J\find\shorec\dis!' e"!" =Z~
+ #t{ t72 "Abo-Daten" t104 }
+ #9DA +#9Dy "Abo-Daten!" e"!" =Y~
+
+#9Dy
+
+#)P
 
 
 #-S
@@ -293,6 +380,16 @@ td-k          d-k.apt laden
 
 #)s
 
+
+#(T
+
+#t{ t20 "   " t21 }
+#nr p{ '<a href="javascript:reqRes(' 39 "|9 " } e0
+#00 e"+" P"!:~?"   code for +
+#nr p{ 39 ");" 34 ">Liste der Themenhefte</a>" } e0
+#t22
+
+#)T
 
 
 
@@ -355,6 +452,9 @@ td-k          d-k.apt laden
 #)X
 
 #(Y
+#9GG p{ "Geb&uuml;hrensatz" } e0 
+#3n i4,s I5,p I4,s { "Schlagwort-Stammsatz" } e0
+#t4
 #t{ ' [<a href="javascript:reqJob(' "'cfga');" '">Details</a>]' } 
 #)Y
    >>>>>>>>> Ende der Unterprogramme >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
