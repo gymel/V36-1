@@ -1,0 +1,104 @@
+
+Verlautbarung 281 zur allegro-Entwicklung                    2016-05-17
+
+a99svi : Schnellkopplung via Internet
+-------------------------------------
+D.h.: a99 besorgt Daten aus einer fremden allegro-Datenbank im Netz.
+Direkt, schnell und unmompliziert - wie die bekannte Schnellkopplung mit
+zwei a99-Fenstern, wenn die Fremdbank auf demselben Server liegt.
+Grundlegend wichtig ist der FLEX-Befehl  get Iurl, mit dem sich a99
+Inhalte aus dem Netz holen kann, und zwar auch und gerade den Output
+eines Jobs, der auf dem Webserver etwas aus einer Datenbank holt.
+So kann a99 ohne Browser direkte Fernzugriffe auf Datenbanken taetigen,
+die mit avanti am Netz sind. Das wird jetzt mal richtig ausgenutzt. (Ein
+anderes Beispiel ist der  o-whrg.flx fuer die aktuellen Wechselkurse.)
+Zur Klarstellung:
+Man koennte versucht sein, von "a35 ohne Browser" zu reden, aber von
+a35 wird kaum etwas dabei gebraucht.
+"a99svi" ist aber auch keine neue, besondere a99-Version! Sondern das
+ganz normale a99 kriegt ein paar neue FLEXe und der Webserver ein
+paar neue Jobs, das ist alles. D.h. auch acon bleibt unveraendert.
+Das svi-Arbeitsprinzip:
+-- Die Fremddatenbank muss mit avanti am Netz sein.
+   Der Webserver braucht aber nur PHP und ein paar kleine Jobdateien,
+   d.h. eine a35-Implementierung oder eine andere ist nicht noetig,
+   wenn keine Nutzung per Browser vorgesehen ist.
+-- a99 startet spezielle FLEXe, z.B. a99ind.flx, die jeweils einen Job
+   auf dem WebServer der Fremdbank aktivieren. Dies geht ueber das auch
+   von a35 verwendete universelle Skript  ajax3.php
+-- FLEX-Einstellungen fuer diesen Vorgang stehen  a99svi.inc,
+   zunaechst steht da nur die Basis-URL fuer ajax3.php
+-- a99xyz.flx startet einen Job a99xyz.job, der die Datenbankzugriffe
+   macht und die Ergebnisse in definierter Form aufbereitet und
+   ausliefert
+   Zunaechst gibt es drei solche FLEXe und zugehoerige Jobs:
+   xyz = get : Einen Datensatz per Satznummer holen
+         ind : Registerausschnitt zeigen, incl. blaettern
+         erg : Ergebnismenge mit find-Befehl bilden und zeigen
+-- a99xyz.job verwendet automatisch die Einstellungen der Datenbank,
+   in deren Ordner er auf dem Webserver liegt: Die Angaben dazu
+   entnimmt er aus a35ini.php und ajax3ini.php. Weitere Dateien
+   von a35 werden nicht gebraucht.
+-- Die Ergebnisse liefert ajax3.php zurueck an den FLEX a99xyz.flx, der
+   im a99 darauf wartet. Genauer: Der Befehl  get I  wartet darauf, und
+   dann gehts weiter in dem FLEX, um die Ergebnisse auszuwerten und
+   eine geeignete Anzeige daraus zu fabrizieren.
+   Im Falle a99ind und a99erg sind dies ViewListen, die wiederum
+   Aufrufe von a35get oder a99erg veranlassen koennen. a35get holt
+   einen Datensatz und legt ihn zur Entscheidung vor: er kann sofort
+   danach in einen Neusatz verwandelt werden.
+Damit wird ein komfortables Suchen und Blaettern in der Fremdbank
+moeglich sowie die direkte uebernahme von gefundenen Datensaetzen.
+Gestartet wird mit  X a99svi. Der kleine FLEX a99svi.flx ist nur dazu
+da, die gewuenschte Funktion auszuwaehlen:
+  Im Index blättern
+  Suchbefehl
+  Datensatz mit interner Nr. abrufen
+Zweckmäßig ist, mit der ersten zu beginnen, dann sieht man gleich,
+welche Register es gibt.
+Notwendige Dateien
+------------------
+A. Auf dem Datenbankserver im DbDir der Datenbank
+a99svi.flx : Startmenue
+a99svi.inc : Einstellungen; z.Zt. nur die Basis-URL fuer den Service
+a99erg.flx : Find-Befehl absenden an a99erg.job,
+             Ergebnis in ViewListe wandeln und zeigen,
+             a99get.flx aufrufen, um gewaehlten Satz zu besorgen
+a99get.flx : Per Satznummer einen Satz anfordern via a99get.job
+a99ind.flx : Registerauszug anfordern und in ViewListe wandeln
+             Gewaehlte Zeile auswerten:
+             -- 1 Treffer: a35get.flx aktivieren
+             -- mehrere  : a35erg.flx aktivieren
+B. Auf dem Webserver im Skriptordner der Datenbank
+a99erg.job : Find-Befehl ausfuehren und Erg.Menge liefern
+a99get.job : Einzelnen Satz liefern
+a99ind.job : Index-Auszug liefern
+Die jeweiligen Ergebnisse werden von den zugehoerigen FLEXen dann
+noch geeignet aufbereitet.
+Zum Ausprobieren:
+1. Diese fuenf Dateien mit  X gf ...  besorgen:
+     a99svi.flx, a99erg.flx, a99get.flx, a99ind.flx, a99svi.inc
+     (Die job-Dateien braucht nur, wer selber eine eigene Datenbank
+     fuer a99svi ins Netz stellen will. Die liegen noch nicht bereit.)
+2. Im eigenen a99 eingeben:   X a99svi  oder auch direkt  X a99ind
+   Völlig risikolos und sofort mit der DemoBank!
+Zum Ausprobieren wurde extra eine neue Datenbank gemacht:  EEBO
+Die Benutzung ist ansonsten weitestgehend selbsterklaerend. Wenn nicht,
+dann bitte Fragen stellen und Verbesserungsvorschlaege einreichen.
+Die voreingestellte Testdatenbank enthaelt knapp 100.000 Datensaetze
+von Early English Books Online. Man kann sie auch mit a35 nutzen:
+  http://www.allegro-b.de/db/eebo
+Die Daten sind alle z.B. im GBV. Die Datenbank als solche waere also
+allenfalls fuer einige wenige Fachleute von Interesse, und der
+Zugriff auf die Digitalisate (bei ProQuest) geht eh nur mit Lizenz.
+(Die a35-Implementierung ist nicht voll ausgebaut, sie soll nur eine
+oberflaechliche Besichtigung ermoeglichen; a99svi braucht das nicht.)
+Hinweis:
+Es handelt sich bei a99svi im Prinzip um eine Beta-Version in fruehem
+Stadium. Verbesserungen und weitere Funktionen koennen hinzukommen, bis
+hin zu der Moeglichkeit, Datensaetze in a99 zu bearbeiten und dann an
+den Webserver zurueckzusenden, damit dort der Satz wieder gespeichert
+wird. Oder ein Neusatz. Also Katalogisierung ueber Internet ohne
+Browser, nur mit a99. Und mit geringstmoeglichen Aufwand auf der
+Server- wie auf der Client-Seite.
+

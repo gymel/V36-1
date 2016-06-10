@@ -2,10 +2,10 @@
 Verlautbarung 277 der Entw.Abt.                              2015-12-14
 -------------------------------
 
-Neue a35-Demo: Suchmaschine für allegro-Doku
---------------------------------------------
+Neue a35-Demo: Suchmaschine fuer allegro-Doku
+---------------------------------------------
 
-Wer bei der Arbeit mit oder an allegro auf ein Problem stößt, dem
+Wer bei der Arbeit mit oder an allegro auf ein Problem stoesst, dem
 stehen mindestens 12 verschiedenartige Informationsquellen offen:
 
 A. Folgende Quellen sind in Google indexiert, weil sie auf dem 
@@ -19,8 +19,8 @@ FLEX-Tricks (17-80)
 Mailforum
 Systemhandbuch [Google als Index dazu nicht wirklich brauchbar]
 
-B. Weitere Quellen sind nur systemimmanent a99 in verfügbar und bislang
-   nicht in ein einheitliches Suchsystem integriert:
+B. Weitere Quellen sind nur systemimmanent a99 in verfuegbar und 
+   bislang nicht in ein einheitliches Suchsystem integriert:
 
 Hilfetexte (.rtf und .txt) von a99
 Exportparameter (.?pr und .?pt)
@@ -28,73 +28,73 @@ Indexparameter (.?pi)
 Importparameter (.?im)
 FLEX-Skripte (.flx)
 acon-Jobs (.job)
-Includes für Skripte und Jobs (.inc)
+Includes fuer Skripte und Jobs (.inc)
 
 Nicht immer, aber nicht selten ist dann die Frage: Wo steht das, was
-ich suche? Oder z.B.: Welche Parameterdatei ist die richtige für mein
+ich suche? Oder z.B.: Welche Parameterdatei ist die richtige fuer mein
 Vorhaben, oder welchen FLEX kann ich als Vorlage heranziehen. Und nicht
 *ganz* selten gibt es mehr als eine Stelle, an denen Brauchbares steht.
 Die genannten Quellen sind in Struktur, Zweckbestimmung und Standort
-sehr verschieden, das erschwert die Suche beträchtlich.
+sehr verschieden, das erschwert die Suche betraechtlich.
 Experten wissen: Diffizile Suche in den einzelnen Dokumentarten ist
-oft mit "grep" aussichtsreich (Suche mit "regulären Ausdrücken").
+oft mit "grep" aussichtsreich (Suche mit "regulaeren Ausdruecken").
 
 Es wurde nun ein Versuch gemacht, das *gesamte* Material einmal so
-aufzubereiten, daß man eine Art Suchmaschine damit befüllen kann.
-Die Suchmaschine heißt a35. Damit kann man keine Volltexte durchsuchen,
-sondern nur Metadaten. Es ist aber klar, daß zumindest einige der 
-Dateien sich für eine Volltextsuche wenig eignen. Metadaten dagegen
-konnte man für jeden der Dokumententypen mit wenig Mühe per FLEX
-erstellen. Im Fall des Handbuchs wurde das Register aufbereitet, für
+aufzubereiten, dass man eine Art Suchmaschine damit befuellen kann.
+Die Suchmaschine heisst a35. Sie kann aber keine Volltexte durchsuchen,
+sondern nur Metadaten. Es ist aber klar, dass zumindest einige der 
+Dateien sich fuer eine Volltextsuche wenig eignen. Metadaten dagegen
+konnte man fuer jeden der Dokumententypen mit wenig Muehe per FLEX
+erstellen. Im Fall des Handbuchs wurde das Register aufbereitet, fuer
 die meisten anderen Dateien eigneten sich die Kopfzeilen der Dateien,
 weil darin Aussagen zum Inhalt stehen. Bei den Verlautbarungen und
-den news wurden zusätzlich die Zwischenüberschriften extrahiert.
+den news wurden zusaetzlich die Zwischenueberschriften extrahiert.
 
-Einschränkung:
+Einschraenkung:
 Der Inhalt des Mailforums ist einerseits zu heterogen, andererseits
-zu schwierig in Metadaten faßbar. Mails sind aber in Google sehr gut 
+zu schwierig in Metadaten fassbar. Mails sind aber in Google sehr gut 
 indexiert, zusammen mit den anderen Inhalten des Web-Servers. 
 Die Essenz vieler Mail-Diskussionen hat aber Eingang gefunden in die
 anderen Quellen.
-TROTZ ALLEDEM ist nüchtern zu konstatieren, daß eine allegro-Datenbank
-heutzutage ein altmodischer Ansatz ist für solcherlei Aufgabe.
-Sehr wahrscheinlich könnte eine geschickte Aufbereitung des gesamten
-Volltextvolumens eine Basis sein für eine echt wirkungsmächtige 
-Google-Suche, insbes. wegen der dann möglichen Phrasensuche und anderer
-Spezialitäten. Ein unbequemer Konjunktiv ist das, der nötige Aufwand
-für die Aufbereitung steht ungelöst im Raum. Womöglich wäre mit
-ebenfalls großem Aufwand auch eine eigene Suchmaschine auf der
-Basis von Solr erstellbar. (Müssen wir eigentlich alles selber machen?)
+TROTZ ALLEDEM ist nuechtern zu konstatieren, dass eine allegro-Daten-
+bank heutzutage ein altmodischer Ansatz ist fuer solcherlei Aufgabe.
+Sehr wahrscheinlich koennte eine geschickte Aufbereitung des gesamten
+Volltextvolumens eine Basis sein fuer eine echt wirkungsmaechtige 
+Google-Suche, insbes. wegen der dann moeglichen Phrasensuche u.a.
+Spezialitaeten. Ein unbequemer Konjunktiv ist das, der noetige Aufwand
+fuer die Aufbereitung steht ungeloest im Raum. Womoeglich waere mit
+ebenfalls grossem Aufwand auch eine eigene Suchmaschine auf der
+Basis von Solr erstellbar. (Muessen wir eigentlich alles selber machen?)
 
-Die Aktion ergab eine Datenbank mit gut 2100 Sätzen. 
+Die Aktion ergab eine Datenbank mit gut 2100 Saetzen. 
 Hier ist sie:
 
   http://www.allegro-b.de
 
 Kein Druckfehler: allegro-b und nicht -c. Das b steht, wie schon mal
-erwähnt wurde, für "browserbasiert".
+erwaehnt wurde, fuer "browserbasiert".
 Das ist ein vorerst experimenteller Server, der auf einer Linux-
-Maschine aufgesetzt wurde. Diese Aktion dient primär der weiteren
+Maschine aufgesetzt wurde. Diese Aktion dient primaer der weiteren
 Verbesserung von a35 in einem umfassenden Versuch einer Linux-
 Implementierung. Ein Niederschlag davon ist der "CrashCourse" und
-das vorige Woche freigegebene Linux-Paket. Zumindest in dieser
+das vorige Woche freigegebene Linux-Paket. Wenigstens in dieser
 Hinsicht hat sich die Sache schon gelohnt: wir haben damit ein neues
-Beispiel für das Potential von a35, und im Vergleich neben der DemoBank 
-ergibt sich ein besserer Eindruck von der Variabilität.
+Beispiel fuer das Potential von a35, und im Vergleich neben der DemoBank 
+ergibt sich ein besserer Eindruck von der Variabilitaet.
 
 Die Datenbank ist online per Browser editierbar. Wer auf 0 Treffer
-stößt oder sonstwie vor die Wand läuft,, kann das gerne melden, wir
+stoesst oder sonstwie vor die Wand laeuft, kann das gerne melden, wir
 analysieren das dann und schaffen Abhilfe. (Es ist immer so, wenn man
-was Neues vorstellt, daß sofort Kalamitäten und Defizite entdeckt 
-werden und Irritate.) 
+was Neues vorstellt, dass sofort Kalamitaeten und Defizite aufstossen 
+und Irritate.) 
 
-Wie auch immer, es bleibt klar, daß man bei einer konkreten Suche im
+Wie auch immer, es bleibt klar, dass man bei einer konkreten Suche im
 Zweifel durchaus die Google-Suche bevorzugen kann oder jedenfalls mit 
-heranziehen sollte. Für Inhalte, die man vage aus dem Mailforum
+heranziehen sollte. Fuer Inhalte, die man vage aus dem Mailforum
 erinnert, bleibt das der einzige Weg.
 
-Es handelt sich übrigens bei dem Linux um ein aktuelles CentOS.
-Besondere Progammanpassungen für diese Variante waren nicht 
+Es handelt sich uebrigens bei dem Linux um ein aktuelles CentOS.
+Besondere Progammanpassungen fuer diese Variante waren nicht 
 erforderlich.
 
 

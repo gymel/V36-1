@@ -1,5 +1,5 @@
 
-Verlautbarung 280 zur allegro-Entwicklung                    2016-05-21
+Verlautbarung 280 zur allegro-Entwicklung                    2016-05-12
 -----------------------------------------
 
 Kleinere Verbesserungen, insbes. f. Win'10
@@ -37,6 +37,7 @@ proff.flx ausgefuehrt. Sie erhalten dann weitere Angaben und
 die Wahl, entweder die Offline-Bereich nochmal zu sichten und noch
 einen oder mehrere vorher bearbeitete aber noch nicht gespeicherte 
 Saetze zu speichern, oder den Offline-Bereich unbesehen zu loeschen.
+(Tip: Letzteres geht mit dem Befehl "x erase off" auch manuell.)
 
 
 FLEX:  var #uxy(b"#nnn") geht nicht

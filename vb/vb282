@@ -1,0 +1,201 @@
+
+Verlautbarung 282 zur allegro-Entwicklung                    2016-06-02
+
+Anzeigeparameter speziell fuer RDA   [Das Wichtigste zuerst]
+----------------------------------
+Hinweis: Gilt nur fuer das a-Schema, also $a.cfg. Fuer eine andere
+Konfiguration haette man mehr zu tun als hier beschrieben wird.
+Die Anzeigeparameter d-krtf.apr fuer a99 und d-khtm.apr fuer a35 oder
+andere Web-Schnittstellen wurden gruendlich aktualisiert. Insbes.
+koennen die RDA-Codes im Klartext angezeigt werden. Dazu muss man nur
+einmal diesen Befehl geben:
+X rdacodes
+und die Codelisten werden dauerhaft installiert.
+Danach zum Ausprobieren:  x dis p d-krtf
+Und wenn man noch keine RDA-Codes verwendet, zum Testen mal bei einem
+Datensatz dies eingeben:
+
+#0c.1 txt     Inhaltstyp
+#77.1 nc      Datentraegertyp
+#37 cze       Sprache des Inhalts
+
+Die Eingabe der Codes wird dagegen unterstuetzt durch ViewListen:
+
+ctype.vw    Inhaltstypen  (txt = Text)
+mtype.vw    Datentraegertypen (nc = Band)
+            (das 'n' bedeutet: Ohne Hilfsmittel zu benutzen)
+spra.vw     Sprachcodes
+
+Diese sind in das Formular [Buch, Teil 2] in cat.frm eingebaut, d.h. in
+den betr. Feldern kann man mit  Alt+i  die Auswahlliste abrufen.
+
+
+a99: Zusatzindex war nicht einsehbar   [V36.1]
+------------------------------------
+Im Indexfenster: Register in anderem Index konnte man nicht sehen
+              z.B. das ALL-Reg. (1 in cat.aex)
+Behoben.
+
+
+a99: PV-Routinen gingen nicht
+-----------------------------
+Die PV-Routinen waren wohl schon zu alt, sie taten es nicht mehr.
+Behoben.
+
+
+a99 Formulare: Problem mit HFM
+------------------------------
+Es klappte nicht, im Formular gezielt bestimmte Exemplare von
+HFM-Feldern zu verwenden, also z.B. zu schreiben:
+
+#0c.1 "Inhaltstyp"
+#77.1 "Datentraegertyp"
+
+Jetzt geht das.
+
+
+Und nun noch ein paar Experten-Themen
+=====================================
+
+
+Neu: Nachladen aus .aex statt .adx
+----------------------------------
+Es wurde eruiert, ob und ggfls. wie man das Nachladen aus anderen 
+Indexdateien ermoeglichen koennte.
+Ergebnis in Kuerze, gueltig fuer a99(a), alcarta, acon, srch, index: 
+-- Alle Nachladebefehle (Form |im ), z.B. zum Export verknuepfter 
+   Saetze, koennen jetzt auf andere Indexe zugreifen.
+-- V14-Ersetzungen sind dagegen auf den Standard-Index angewiesen, dies
+   zu aendern stellte sich als zu schwierig heraus und es wuerde auch
+   hier oder da zu Lasten der Performance gehen. 
+
+Export: Und so geht jetzt das Nachladen aus anderem Index:
+#b~e
+#nn 0 |48
+#b~d
+Das besagt:
+  Im Reg. 4 der Indexdatei .aex nach Inhalt von nn suchen, 
+  Die gefundene Zeile steht dann in #ux4
+  Also: Die Umschaltung erfolgt mit  #b~e,
+        dann sucht der Befehl  |48  im Register 4 von  .aex
+        Mit #b~d wird wieder zum Hauptindex .adx geschaltet
+Zwischen den beiden #b-Befehlen können beliebig viele andere stehen,
+also mehrere Nachladungen aus dem anderen Index stattfinden.
+Einschr.: Bei Programm  index.exe  kann es logischerweise nur beim 2. 
+Durchlauf gehen, mit Schluesseln, die dann schon vorhanden sind.
+
+Beispiel:
+Wenn man etwa  #37 ger  hat und fuer den Sprachcode  ger  steht
+im Reg. 7 von cat.azx die Zeile  Sger=Deutsch, also mit einem S
+davor, dann findet man diese Zeile mit
+
+#b~z
+#37 p"S" P"=" |78
+#b~d
+
+und die Zeile steht dann in #ux7. Der Modus |78 holt aus dem Register 7
+die erste Zeile, die mit Sger= beginnt und kopiert sie in #ux7. Das
+Ergebnis sieht also dann so aus:  #ux7Sger=Deutsch. Wird keine passende
+Zeile gefunden, ist #ux7 unbesetzt. D.h. man kann z.B. schreiben:
+#ux7 +A e0     Sprung nach #-A, wenn #ux7 besetzt ist.
+Alles zu den Export-Nachladebefehlen steht im Handbuch, Kap. 10.2.6.7,
+(eingeben:  h ac10-9=10.2.6.7 )
+Mit FLEX sieht es etwas anders aus. Zum Ausprobieren:
+
+set &z7     Reg. 7 von cat.azx enthaelt die persistenten Variablen
+var &Sger   die mit  Sger=  beginnende Zeile wird in die iV kopiert
+mes         und angezeigt
+
+Alles zu den &-Variablen steht in vb258.
+
+
+Noch was zum Thema - relevant fuer Giga-Banken!
+-----------------------------------------------
+Indexparameter:
+  Ein bisher unbekannter, laengst vorhandener Befehl wurde entdeckt:
+
+ix=ddedddddedd     Reg. 3 und 9 sind in der Indexdatei .aex
+
+  Wirkung: Alt+3 bzw. 9 schaltet in Reg. 3 bzw. 9 von cat.aex
+  Das gilt nur fuer das Blaettern im Index, nicht fuer find-Befehle
+  oder das Nachladen. Wenn man also die Standard-Indexdatei entlasten
+  will, kann man auch alle Register ausser dem Nachladeindex in eine
+  andere Indexdatei verlegen, um den gesamten .adx fuer die V14-
+  Ersetzungsschluessel freizumachen.
+  Symbolische Register muessen unveraendert so definiert werden:
+  z.B. wenn Reg. 3 in .aex gemeint ist:
+I TIT e3 "Titelwoerter" 
+  waehrend man fuer den Standardindex .adx schreibt:
+I PER 1 "Personen"
+
+
+
+a99: Schriften unter Win'10
+---------------------------
+Die Schriften bei F5 und F7 waren nicht, wie es sein sollte,
+nichtproportional, sondern proportional. 
+Behoben.
+
+
+a35 Paket aktualisiert
+----------------------
+Hier kann man es sich besorgen:
+http://www.allegro-b.de/download/a35.zip
+In jedem Ordner ist ein README.
+
+a35: JavaScript a35.js verbessert
+---------------------------------
+vor/zurueck Blaettern in den
+Quadranten 1,2,3. Einstellbar: extMax infMax ergMax, default 10
+
+
+Persistenzvariablen beim Export nutzen
+--------------------------------------
+Leider kann man weder die $-Variablen noch die &-Variablen beim
+Export direkt nutzen. An eine $-Variable kommt man nur heran, indem
+man sie vor dem Export mit
+
+var $name
+ins #uxy
+
+in eine #u-Variable kopiert.
+Mit &-Variablen geht es so:   [etwas trickreich, zugegeben]
+Nehmen wir an, wir haben Variablen der Form  name=Inhalt  im Register
+7 der Indexdatei cat.azx. Das koennen z.B. Sprachcodes sein, also
+etwa  geo=Georgisch
+Nun steht z.B. im zu exportierenden Datensatz  #37 geo, es soll statt
+dessen aber "Georgisch" exportiert werden. Das geht so:
+
+#37 p"~z" P"=" |78          Im Reg. 7 von cat.azx nach "geo=" suchen
+#ux7 b"=" p"Sprache: "      die Zeile steht dann in #ux2
+
+Wenn die Eintragung "geo=..." nicht existiert, ist #ux7 nicht belegt,
+d.h. die Zeile #ux7 ... bewirkt nichts.
+Mit diesem Rezept kann man &-Variablen aus jedem Index beim Export
+nutzen. Anwendung findet dies in der aktuellen d-k.apt:
+
+Codelisten als &-Variablen
+--------------------------
+
+V36.2 kommt mit 4 Paketen von &-Variablen, und zwar fuer die RDA-Codes.
+Eingerichtet werden diese Listen mit einem dafuer erstellten FLEX 
+mit Namen  rdacodes.flx. Man startet nur  X rdacodes - schon erledigt.
+
+WICHTIG:
+Zuerst dafuer sorgen, dass die Datei cat.azx im eigenen DbDir vorhanden
+ist. Wenn nicht: Kopieren aus dem Ordner  demo.
+Diese Variablen werden in den neuen Anzeigeparametern  d-krtf.apr und
+d-khtm.apr  verwendet, um die Codes durch Klartexte zu ersetzen.
+Wie die Anzeige damit aussieht, kann man zuerst so ausprobieren:
+x dis p d-krtf    in das Eingabefeld eingeben
+Im Gefallensfall dann in die INI-Datei eintragen:
+DisplayParameter=d-krtf
+
+
+Ferner gibt es eine neue ViewListe artinh.vw fuer die Bezeichnungen,
+die im neuen RDa-Feld #31f "Art des Inhalts" verwendet werden koennen.
+Codes gibt es fuer diese Bezeichnungen nicht.
+Eingebunden ist #31f in das Formular Buch2, indexiert wird das Feld
+wie die Schlagwoerter im Reg. 3 und wortweise im ALL-Register, damit
+ist es auch einbezogen in die Schnelle Direktsuche.
+
