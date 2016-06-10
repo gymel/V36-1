@@ -1,0 +1,91 @@
+// a99ind.job : Registerabschnitt f. a99 liefern
+// 2016-05-13
+
+// z.B. #urS = "per meier"
+
+
+set c0
+set U0
+
+
+var #urS(f"_")
+xco u
+//  Metazeichen ruecksetzen
+ins _!:~_+_
+ins _!~:_&_
+
+ins #urS
+
+var #urS(e" ")
+ins #urG
+
+var #urS(b" ")
+ins #urS
+if "-" var (f"-");ins #urS;qrix -
+
+
+var ""
+exp p e-1
+ins #uER
+if #uER jump nopa
+
+// Vorspann fuer die Ruecklieferung an a35, Typ  REG
+  // Modus einstellen: f 5, Form: anzahlTABtextTAB:recnr
+qrix f 5
+
+qrix n 22
+
+
+
+
+:qr
+var #urG " " #urS
+Qrix
+      // Reg.Abschnitt holen im Modus  f 5, d.h.  anzahl TAB inhalt TAB: recnr
+ins _^I_----_
+  // Ersetzungen, TAB durch ----, Zeilenwechsel durch ====
+ins _^T_====_
+  // Nun ist   anzahl----inhalt----:recnr====anzahl----...
+
+// aufbereiteten Reg.Abschnitt speichern in #uqr
+ins #uqr
+
+
+// erste und letzte Zeile sichern f. Links nach oben / nach unten
+var #uqr(e"===")
+ins #uqe
+var #uqr(T"===")
+ins #uql
+
+
+  // Aufbereitung   recnr:anzahl text
+
+:loop
+
+var #uqr(b'----' e'====')
+ins #uqa
+
+// hat die Zeile mehr als 1 Eintrag?
+var #uqr
+if >1 jump mehr
+
+wri #uqr(e'----') ":"  #uqa n
+jump naechst
+
+  // es sind mehr als 1
+:mehr
+wri #uqr(e'----') ":"  #uqa(e"----:") n
+jump naechst
+
+
+:naechst
+var #uqr(b'====')
+ins #uqr
+
+if #uqr jump loop
+
+end
+
+:nopa
+wri " Sorry, " #uER ", Parameter e-1" K1 "pr nicht gefunden oder nicht verwendbar" n "Vielleicht fehlt ad-utf." K1 "pt!" n
+

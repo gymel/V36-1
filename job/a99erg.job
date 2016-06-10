@@ -1,0 +1,460 @@
+//  a99erg.job : Suchbefehl ausfuehren und Ergebnismenge liefern
+//  2012-09-05
+
+// Suchbefehl vorbereiten, ... am Ende durch ? ersetzen
+// etwas trickreich, weil "_" zu setzen sind, aber es auch sein kann,
+// dass schon welche gesetzt sind
+
+// #urF : find-Befehl, oder auch #urS, aber #urF hat Prioritaet
+// #usE : Restriktion - optional
+// #uoR : Order-Befehl zum Sortieren der Erg.Menge
+// Gebraucht wird Parameterdatei  a35erg.Xpr (X = Konfig.Buchstabe)
+
+
+// first switch coding
+
+swi c0
+set U0
+echo off
+
+//                  z.B. bei Datenbank lv: Restr. einstellen, falls angegeben
+// var #usE(f" -0")
+// ins #usE
+// if #usE var "SMT =" #usE;find
+
+
+
+// Ordnungspunkt (normal: Wert $SP aus ajax3ini.php, sonst default d51, aber #uoR geht vor
+
+
+var #uoR
+if not "" ins #uSP
+
+if not #uSP #uSP a0
+
+// Startnummer Beginn bei Nr. #uzS
+if not #uzS #uzS 1
+
+// Anzahl Zeilen je Seite, default 500
+#uzA 500
+
+
+// wenn Trunkierung vorlag im Reg.
+var #urF '!'
+ins _...!_?_
+//  single quote ' comes from a35 as -qt-
+ins _-qt-_'_
+//  double quote ' comes from a35 as -qT-
+ins _-qT-_"_
+var (F'!')
+ins _!:~_+_
+ins _!~:amp;_&_
+xco u
+//   Bindestriche in Spatien wandeln, d.h. die Woerter einzeln suchen
+// ins _-_ _
+ins #ufc
+
+
+jump beginn
+
+:urS
+if not #urS jump noinput
+
+var #urS '!'
+ins _...!_?_
+var (F'!')
+
+// find command now in #ufc
+xco u
+
+// convert to lowercase to make search case sensitive
+xco clower
+
+ins #ufc
+
+
+:beginn
+    // z.B. #ufc = PER _goethe?
+
+
+// beginnt es mit | oder ~? Dann direkter Suchbefehl
+
+var "x" #ufc(0,1)
+if %x|% jump suchbef
+if %x~% jump suchbef
+
+// an Pos. 3 kein space? Dann kein ordentl. Suchbef.
+var #ufc(f"_" 3,1)
+if not " " jump all
+
+
+// erstes 'wort' vorbereiten
+var #ufc(0,4)
+ins $us
+
+  Suchbegriff bilden aus dem Namen des ersten Reg.
+var "xx" "ALL"
+// umcodieren in Registerform
+xco ip
+// und in #u!! sichern
+var (F" ")
+ins #u!!
+
+var '_' #u!!
+ins #u!!
+
+// Liste der Reg.Bezeichnungen vorbereiten
+var "xx" I
+ins _^T_xx_
+// und umcodieren in Grossbuchst.
+xco ip
+ins #ukk
+
+// darin nach #u!! suchen
+srx
+// gefunden? Dann ist es ein Registername
+if yes jump suchbef
+// Sonst irgendein Wort, dann zur ALL-Suche!
+
+
+
+jump all
+
+
+// Es wurde ein Suchbefehl eingeben
+:suchbef
+echo off
+
+// Zuerst direkt versuchen:
+
+var #ufc
+find
+if g0 jump erfolg
+
+
+// mit _ nochmal versuchen (bei symb. Reg. mit Praefix geht's nur so!)
+var #ufc(f" " e' ') ' _' #ufc(b" " f' "' F" ?") '?'	
+
+ins #ufc
+
+find
+
+
+if g0 jump erfolg
+
+// Dann Reg.Name vorn und ? hinten wegnehmen
+var #ufc(b" " f"_" F" ?")
+ins #ufc
+// und ALL-Suche machen
+
+jump all
+
+// Erg.Menge konnte gebildet werden
+:erfolg
+
+// Wenn mit #uRM eine Obergrenze des Umfangs der Erg.Menge gesetzt ist
+// (sonst bewirkt  if >#uRM  nichts!)
+
+var l
+if >#uRM jump toomuch
+if =#uRM jump toomuch
+
+
+// Wenn man eine Grenze für das Ordnen setzen will:
+// var l
+// if >250 wri "_!_ERRMehr als 100, deshalb unsortiert" n;jump zeigen
+
+
+:zeigen
+var ""
+#uSP a0
+
+exp p a35erg
+if no jump ers
+jump ok
+
+// a35erg nicht gef. oder fehlerhaft, a35ers.@pr nehmen,
+// das klappt immer, weil CFG-neutral
+:ers
+// Flag f. STL-Modus setzen
+var "STL"
+ins #uSM
+var ""
+exp p a35ers
+ins #uER
+if #uER jump nopa
+// Sortierung dann aufsteigend ab Pos. 0
+:ok
+// Ordnen
+
+var #uSP
+order 
+
+
+var #ufc
+xco xp
+ins $ufc
+
+
+
+// Ersten Satz holen, beginnend bei Nr. #uzS
+
+var "r" #uzS
+find
+
+var #uzS
+z=
+
+var s
+ins $s
+
+// Schleife f.d. Liste
+
+:rloop
+
+var i
+var (0,r9)
+ins $i
+
+
+wri "N" $i "|" $s n
+
+
+z+1
+
+eval z -#uzA -#uzS
+if =0 jump rend
+
+// Kurzzeile d.naechsten Satzes
+next r
+if no jump ende
+ins $s
+jump rloop
+
+// #u1 besetzen, sonst klappt Export nicht
+#u1    0000
+
+jump rloop
+
+// Ende erreicht!
+:ende
+z=1
+:rend
+
+// ist Ende erreicht?
+var l
+ins #ulg
+eval z -#ulg
+// dann Zaehler f. naechste Seite auf 1
+if =1 z=1
+// Zaehler f. naechste Seite
+wri "_!_UZS" z n
+
+end
+
+// Sonderfunktion Neue Daten von heute
+:heute
+var '|9 D' #dts(0,8) '?'
+ins #ufc
+find
+if g0 jump erfolg
+wri ' Sorry, heute (' #dts(6,2) '.' #dts(4,2) '.' #dts(0,4) ') nichts angefallen' n
+
+end
+:nix
+wri ' Sorry, mit ' #ufc ' nichts gefunden' n
+
+end
+:noinput
+wri ' Sorry, ohne Eingabe keine Suche! =' #urF n
+end
+
+:null
+var ""
+wri ' Sorry, mit ' #urS #urC ' leider kein Ergebnis!' n
+end
+
+// Es ist zuviel
+:toomuch
+wri " Sorry, " l " results is too much!" n
+list r
+end
+
+
+// ********************************************************
+// Es wurden einfach nur Woerter eingegeben, dann ALL-Suche
+:all
+
+
+var #ufc
+// enthaelt jetzt Suchwoerter in ASCII!
+ins #urS
+ins #urT
+
+
+// Zusammenbau des Befehls
+// ACHTUNG:  Aendern ALL wenn ein anderes Reg. das allgemeine Wortregister ist
+
+var 'ALL ' #urS(e' ' F',.-")!'?:;/')
+
+ins #urC
+jump nxt
+
+:lop
+var #urS(e' ' F',.-")!'?:;/')
+if "" jump nxt
+ins #urs
+var #urC ' and ALL ' #urs 
+ins #urC
+:nxt
+var #urS(b' ' f' ;-/:=("')
+ins #urS
+if not #urS jump srch
+var #urS(e' ')
+// Stopwoerter nicht
+
+if Stop jump nxt
+if #urS jump lop
+
+:srch
+
+
+// Abfangen, wenn das erste Wort schon gleich mehr als 5000 liefert
+qri n 1
+var #urC(e" ") " " #urC(b" " f' ;"' e" " F'"')
+ins #uqr
+Qri
+ins #uqz
+
+if <5000 jump fb
+
+var #ufc(b" " e" ") " " #ufc(e" ") " " #ufc(b" " b" ")
+ins #ufc
+ins #urS
+ins #urT
+
+var 'ALL ' #urS(e' ')
+
+ins #urC
+jump nxtb
+
+:lopb
+var #urC ' and ALL ' #urS(e' ')
+ins #urC
+:nxtb
+var #urS(b' ' f' ;"')
+ins #urS
+if not #urS jump srchb
+
+if #urS jump lopb
+
+:srchb
+
+var #urC(e" ") " " #urC(b" " f' ;"' e" " F'"')
+ins #uqr
+Qri
+ins #uqz
+if >5000 wri "_!_POP Mehr als 5000:  " #uqz n;end
+
+
+:fb
+// find-Befehl aus #urC in die iV kopieren: */
+
+var #urC
+
+//  und ausfuehren: */
+find
+if l 1 jump trunc
+ins #ufc
+jump found
+
+// Nichts gef., 2. Versuch mit Trunk.
+:trunc
+var #urT
+ins _ ALL _ _
+ins #urS
+var 'ALL ' #urS(e' ' F'?') '?'
+
+ins #urC
+jump tnxt
+
+:tlop
+var	 #urC ' and ALL ' #urS(e' ' F'?') '?'
+ins #urC
+:tnxt
+var #urS(b' ' f'; "')
+ins #urS
+if not #urS jump tsrch
+var #urS(e' ')
+if Stop jump tnxt
+if #urS jump tlop
+
+:tsrch
+qri n 1
+var #urC(e" ") " " #urC(b" " f' ";' e" " F'"')
+ins #uqr
+Qri
+ins #uqz
+if >5000 wri "_!_POPzuviel: " #uqz n;end
+
+/* find-Befehl aus #urC in die iV kopieren: */
+var #urC
+
+/*  und ausfuehren: */
+find
+
+if l 1 jump 2trunc
+ins #ufc
+jump found
+
+// Nichts gef., 3. Versuch ohne Endung
+:2trunc
+z=0
+
+// Zerlegen in Woerter, jeweils  ALL davor
+var #urT
+ins _ ALL _ _
+ins #urS
+var 'ALL ' #urS(e' ' F':;,-ensr') '?'
+if "ALL ?" var ""
+
+ins #urC
+jump 2tnxt
+
+:2tlop
+z+1
+if z>3 jump 2tsrch
+if #urC var #urC ' and ALL ' #urS(e' ' F':;,->ensr') '?'
+if not #urC var 'ALL ' #urS(e' ' F';:,-ensr') '?'
+if %ALL ?% jump 2tnxt
+ins #urC
+:2tnxt
+var #urS(b' ' f' "-/:;,.+=<')
+ins #urS
+if not #urS jump 2tsrch
+var #urS(e' ')
+if Stop jump 2tnxt
+if #urS jump 2tlop
+
+:2tsrch
+var #urC
+/* find-Befehl aus #urC in die iV kopieren: */
+
+/*  und ausfuehren: */
+find
+if l 1 jump null
+
+:found
+jump erfolg
+
+
+:nopa
+var K 
+var (0,1)
+ins #uCF
+wri "_!_POP" l " Ergebnisse, aber Problem mit Parameterdatei a35erg." #uCF "pr oder a35ers.@pr" n
+wri n "Trouble with parameter file a35erg." #uCF "pr or a35ers.@pr" n "or a file included into it." n
+
+write n "(" #uER ")" n
+wri "Erster Satz: " s n
+end
