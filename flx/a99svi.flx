@@ -1,0 +1,8 @@
+  a99svi.flx : Funktionswahl
+
+set aFunktionswahl
+var "Im Index blättern" n "Suchbefehl" n "Datensatz mit interner Nr. abrufen"
+Are
+if "Im" exec a99ind
+if "Suc" exec a99erg
+if "Dat" exec a99get

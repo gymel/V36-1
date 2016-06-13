@@ -18,10 +18,11 @@ fl=0            Formularlaenge 0 (Endlosliste)
 ae=13 10 "\li0\fi0 "    Satzende: Einrückung rücksetzen
 
 p .031 178   Subfield Code = AltGr+2 (Dreieck Spitze unten)
-p ` 1        Nichtsort.Zeichen weglassen
+  p ` 1        Nichtsort.Zeichen weglassen [n.cfg]
 
   Besondere Zwischenteile (Texel)
-  Schriftattribute (Bedeutung der Nummern wie in n.cfg)
+  Schriftattribute (Bedeutung der Nummern s.a. n.cfg)
+
                                        Frueher bei a.cfg ueblich:
 66="\b "      #B Fettschrift            99
 98="\b0 "     #b Fettschrift aus        98
@@ -43,10 +44,11 @@ p ` 1        Nichtsort.Zeichen weglassen
 116="\par "   #t endet
 82="\par \tab "  #R Row  
 
+
 67="\tab "   #C Column
 69=9         #E Einrueckung zur naechsten TAB-Marke
-70="\f1 "    #F Feste Breite
-102="\f0 "   #f Proportionalschrift
+70="\f1 "         #F Feste Breite
+102="\f0 \cf0 "   #f Proportionalschrift schwarz
 
   Flip-Markierungen links und rechts
   160 ist das unsichtbare Leerzeichen! Sinnvolle Alternative: 183

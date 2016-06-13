@@ -235,6 +235,7 @@ var $Burl "&verb=" $cmd
   Kontrollanzeige im Schreibfeld
 :g2
 sho iv
+  Die URL als Datei oeffnen (!)
 open
 if no jump nop
 get
@@ -247,10 +248,13 @@ if not no jump gloop
 close
 close x
  help oai.xml
+
 open oai.xml
-fet 5000
+fet 100000
 if %404:% mes Daten nicht verfuegbar;end
+
 close
+
 return
 
 

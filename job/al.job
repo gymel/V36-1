@@ -180,7 +180,7 @@ last
 var i
 ins $recNr
 var kr
-// code changes for display (see param  e-w0.@pr)
+// code changes for display (see param  e-w.@pr)
 // if $ux ansi
 xcode xp
 ins $kr
@@ -204,7 +204,7 @@ if "2" jump next
 if "3" jump prev
 
 if "m" exp t ad-aw;jump get2
-if "o" exp p e-w0;jump get2
+if "o" exp p e-w;jump get2
 if "n" jump 2
 if "l" list recnum;jump 2
 if "i" jump prind
@@ -737,9 +737,9 @@ if '-' jump Note
 var (0,200 F" ")
 ins $note
 
-// Prepare the string  &key=value
+// Prepare the string  &kywd=value
 var "&" $kywd "=" $note
-// and save it into the index (i.e., "value" into &key)
+// and save it into the index (i.e., "value" into &kywd)
 ins
 jump Menu
 
@@ -1365,7 +1365,7 @@ if not %ac-w% var "x";ins $ux
 // We want no automatic code changes in input or output:
 set c0
 
-// Editor for records or files (set the one you prefer)
+// Editor for records or files (set your preferred editor)
 
 if $ux var "vi"
 if not $ux var "WinVi32"
@@ -1604,6 +1604,8 @@ write "e : Name of current export parameters (DOS: Option -e) : " e n
 
 write "i : internal nr. of curr. record : " i n
 write "j : Number of ." K1 "ld file of curr. record : " j n
+write "jb: Size of curr. record in workspace: " jb " bytes" n
+write "jf: Size of curr. record in file: " jf " bytes" n
 write "k0: Number of fields of current record : " k0 n
 var k0
 if "0" jump nof

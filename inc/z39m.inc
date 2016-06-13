@@ -143,6 +143,15 @@ var #74(e"$")
 ins _{[_[_
 ins #74
 
+  RDA:
+
+var #uzy(b"`336" B"$b" e"`" e"$")
+ins #0c.1
+
+var #uzy(b"`338" B"$b" e"`" e"$")
+ins #77.1
+
+
 var #uzy(b"`300" B"$a" e"`" e"$c" F"; ")
 if "" var #uzy(b"`215" B"$a" e"`" e"$c" F"; ")
 ins _$b_ _
@@ -172,8 +181,14 @@ ins #61
 var #uzy(b"`040" e"`" b"$b" e"$")
 ins #37
 
+  RDA
 var #uzy(b"`040" e"`" b"$e" e"$")
 ins #10
+
+  Art des Inhalts
+var #uzy(b"`064" e"`" b"$a" e"$")
+ins #31f
+
 
 var #uzy(b"`240" 6,0 e"`")
 ins #83

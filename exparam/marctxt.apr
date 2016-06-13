@@ -497,6 +497,7 @@ i4=1
 #88 p{ '=856  \\' '0$uhttp://rzblx1.uni-regensburg.de/ezeit/searchres.phtml?bibid=DHIW&colors=7&jq_type1=KT&jq_term1=&jq_bool2=AND&jq_not2=+&jq_type2=KS&jq_term2=&jq_bool3=AND&jq_not3=+&jq_type3=PU&jq_term3=&jq_bool4=AND&jq_not4=+&jq_type4=IS&jq_term4='
 #88 e1 P{ "$zZugang über EZB" t13 t12 } e0
 
+
   Nachgeladener Satz? Dann hier schluss
 #una +#una e0
 
@@ -810,7 +811,7 @@ i4=1
 
 #(H    Bestand (Holdings)
 #t2
-#t{ '866  \\' }
+#t{ '910  00' }
 #t65
 #cc
 #t13

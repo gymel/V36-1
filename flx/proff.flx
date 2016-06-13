@@ -1,0 +1,20 @@
+  proff.flx : Offline-Bereich pruefen (bei Fehlermeldung "Mit dem Satz stimmt was nicht")
+  2016-05-12  Wird automatisch von a99 ausgeloest bei Unstimmmigkeit im offline-Bereich.
+
+var n "ACHTUNG!" n n "Es wurde eine Unstimmigkeit bei dem Satz " i " festgestellt" n
+var +"Dies kann behoben werden mit dem Befehl 'x erase off'" n
+var +"Aber vielleicht möchten Sie zuerst nachsehen, ob sich im offline-Bereich" n
+var +"andere bearbeitete Sätze befinden, die Sie noch abspeichern möchten." n
+var +"Wenn das so ist, antworten Sie mit Ja, sonst mit Nein" n
+var +n "Bei Ja wird der Offline-Bereich unwiderruflich gelöscht" n
+var +n "(Momentane Anzahl Sätze im Offline-Bereich : " o ")" n
+sho IV
+yes Offline-Bereich löschen?
+if not yes jump shoff
+erase off
+mes Erledigt, Sie können weiterarbeiten
+end
+:shoff
+mes Jetzt wird der Offline-Bereich gezeigt. Mit EDT sind die editierten und noch nicht gespeicherten Sätze gekennzeichnet
+sho off
+

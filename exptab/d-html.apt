@@ -4,6 +4,7 @@
 
     Bedeutung der Nummern steht in n.cfg
 
+  attributes
 66="<b>"
 98="</b>"         #b Fettschrift aus
 73="<i>"          #I Kursiv ein
@@ -15,18 +16,27 @@
 74="<sub>"        #s Tiefstellen
 106="</sub>"      #w aus
 
+  colors
 65="<font color=blue>"       #A blAu
 71="<font color=green>"      #G Gruen
 79="<font color=red>"        #O rOt
 89="<font color=yellow>"     #Y Gelb
 103="<font color=gray>"      #G grau
-111="</font>"       #o normale Farbe
 
+  fonts
+70='<font face="Arial">'     #F prop. font
+102='<font face="Courier">'  #f fixed font
+111="</font>"                #o font off, normale Farbe
+
+  urls
 72="<a href=" 34
 104=34 ">"
 97="</a>"
 
 69="   "      TAB-Einrueckung, in HTML nicht wirklich vorgesehen
+
+
+
 
 p .060 "&lt;"         <
 p .062 "&gt;"         >

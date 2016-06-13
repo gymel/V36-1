@@ -1,0 +1,28 @@
+// a99get.job : Satz an a99 liefern
+// 2016-05-13
+
+// z.B. #urS = "per meier"
+
+
+set c0
+set U0
+var ""
+
+exp p e-1
+ins #uER
+if #uER jump nopa
+
+  Satz laden
+var "#" #urN
+f1nd
+
+  und exportieren
+exp
+
+wri n
+
+end
+
+:nopa
+wri #uER ", Parameter e-1." K1 "pr nicht gefunden oder nicht verwendbar" n "Vielleicht fehlt ad-utf." K1 "pt!" n
+

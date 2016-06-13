@@ -292,6 +292,14 @@ var "022a"
 perf SF 
 ins #88
 
+  Regelwerk
+var "041e"
+perf SF
+if not "" ins #10
+var "040e"
+perf SF
+if not "" ins #10
+
 var "773w"
 perf SF
 var (b")")
@@ -332,6 +340,7 @@ ins $d
   Inhaltstyp
 var "336b"
 perf SF
+ins _^J^J_ _
 ins #0c.1
 
 // Medientyp (337) ist redundant, wird nicht uebernommen
@@ -361,6 +370,28 @@ ins $a
 var $a
 ins #60
 
+  Konferenz
+var "111a"
+perf SF
+ins $k
+if not $k jump 730a
+
+var "111n"
+perf SF
+var (F".")
+ins $n
+var "111d"
+perf SF
+ins $d
+var "111c"
+perf SF
+ins $c
+
+var $k " ; " $n " (" $c ")" " : " $d 
+
+ins #83
+
+:730a
 var "730a"
 perf SF
 ins $a
@@ -411,6 +442,13 @@ perf SF
 
 ins #22
 
+var "245b"
+perf SF
+if not "=" jump 770a
+var (f"= ")
+ins #24
+
+:770a
   Beilagen, noch zu vervollst.
 var "770a"
 perf SF
@@ -427,13 +465,72 @@ ins $c
 ins $n
 ins $p
 ins $s
+ins $x
+ins $y
+
+  Art des Inhalts (z.B. Konferenzschrift Ort, Jahr)
+var $
+
+var (x'd t="655"')
+ins _^J^J_^T^T_
+ins $Au
+
+var $Au (e"^T" x's c="a"')
+ins $a
+var $Au (e"^T" x's c="x"')
+ins $x
+var $Au (e"^T" x's c="y"')
+ins $y
+
+var $a " " $x ", " $y
+var (F", ")
+ins #31f
+var ""
+ins $a
+ins $x
+ins $y
+
+var $Au (b"^T^T")
+ins $Au
+if not $Au jump 700
+var $Au (e"^T" x's c="a"')
+ins $a
+var $Au (e"^T" x's c="x"')
+ins $x
+var $Au (e"^T" x's c="y"')
+ins $y
+
+var #31f " ; " $a " " $x ", " $y 
+var (F", ")
+ins #31f
+var ""
+ins $a
+ins $x
+ins $y
+
+var $Au (b"^T^T")
+ins $Au
+if not $Au jump 700
+var $Au (e"^T" x's c="a"')
+ins $a
+var $Au (e"^T" x's c="x"')
+ins $x
+var $Au (e"^T" x's c="y"')
+ins $y
+
+var #31f " ; " $a " " $x ", " $y 
+var (F", ")
+ins #31f
+var ""
+ins $a
+ins $x
+ins $y
+
+
+:700
+  Beteiligte Personen
 
 var $
-  this must not occur:
-  (it is used as a separator if a command (x'...') finds mult. occurrences)
-ins $
-
-  Beteiligte Personen
 var (x'd t="700"')
 ins _^J^J_^T^T_
 ins $V
@@ -575,7 +672,7 @@ ins $c
 var $ (b't="264" ind1=" " ind2="' e'"')
 
 if "1" jump n264
-ions $i
+ins $i
 
 if $a var $a
 if $b var +" : " $b
@@ -688,7 +785,7 @@ var $a
 if $n var +" ; " $n
 if $c var +" (" $c ")"
 if $d var +" : " $d 
-ins #83
+if $a ins #83
 var ""
 ins $a
 ins $c
@@ -792,13 +889,6 @@ var $b (f"; ")
 ins #33
 
 :655
-var "655a"
-perf SF
-ins _^T^T_; _ 
-ins _^J^J_; _ 
-ins #33D
-
-
 
  // GND-SW, provisorisch
 if #330 jump url
@@ -834,15 +924,16 @@ var $ (x'd t="856" ind1="4" ind2="2"' x's c="3"' e"")
 ins $z
 if $z var $u 31 "t" $z
 if not $z var $u
-ins #8e2
+ins #8e~
 
-var $ (x'd t="856" ind1="4" ind2="0"' x's c="u"' e"&amp;" e"")
+
+var $ (x'd t="856" ind1="4" ind2="2"' b"^T" x's c="u"' e"&amp;")
 ins $u
-var $ (x'd t="856" ind1="4" ind2="0"' x's c="x"' e"")
+var $ (x'd t="856" ind1="4" ind2="2"' b"^T" e"" x's c="3"')
 ins $z
 if $z var $u 31 "t" $z
 if not $z var $u
-ins #8e4
+ins #8e~
 
 var ""
 ins $u
@@ -880,9 +971,12 @@ perf SF
 ins #0c
 
   Regelwerk
+var "041e"
+perf SF
+if not "" ins #10
 var "040e"
 perf SF
-ins #10
+if not "" ins #10
 
   SW-Satz
 var "150a"

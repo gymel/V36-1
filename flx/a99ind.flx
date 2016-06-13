@@ -1,0 +1,189 @@
+  a99ind.flx : sendet Index-Anford. an avanti, verarb. output voon a99ind.job
+  2016-05-13
+  Aufruf:  X a99ind   oder    a99ind suchbefehl (z.B. per shakespeare)
+
+ins $sb
+include a99svi.inc
+  enth. die Basis-URL f.d. Aufruf von a99ind.job, z.B.
+    $burl=http://localhost/ab/ajax3.php?JOB=a99ind&VurS=
+    startet den Job a99ind.job mit Argument #urS
+
+  Aufruf mit Suchbefehl?
+if $sb var $sb;jump beginn
+
+:reg
+if not #urG perf gti;if not "" jump eintr
+
+  sonst abfragen
+ask Register? (default ALL)=#urG
+if "" ins #urG;jump reg
+ins #urG
+
+:eintr
+ask Eintrag?=#urS
+if cancel end
+if "" var "a"
+ins #urS
+
+var #urG " " #urS
+
+:beginn
+
+  Leerz. codieren
+ins _ _%20_
+  Metazeichen codieren, a99ind.job macht das rueckgaengig
+  (sonst wird Webserver diese Zeichen aendern, +=Leerzeichen ...) 
+ins _+_!:~_
+ins _&_!~:_
+
+ins $bef
+
+var $bef (e"%")
+ins #urG
+
+var $burl "a99ind&VurS=" $bef
+
+  Index-Output vom Server holen
+get I
+
+  Bereinigen
+  Code 13 raus
+ins _^M__
+  Leerzeilen raus 
+ins _^J^J_^J_
+var (f"^J")
+
+  Es muss zeichenfolge  ----:  vorkommen
+if not %----:% jump nix
+
+  Zeilen jetzt mit ^J getrennt
+ins $o
+   So sehen die Zeilen aus:
+     1:Eintrag----:Satznr
+      oder
+     Zahl:Eintrag 
+
+  falls noch vorige Viewdatei offen
+close view
+  neue Viewdatei oeffnen
+var W "\\a9935.vw"
+open x
+
+var "up|Vorige Seite"
+var (r0,80) n
+wri 
+
+var "down|N„chste Seite"
+var (r0,80) n
+wri 
+
+  $o Verarbeiten, ViewZeilen draus machen
+
+:Aloop
+var $o (e":" 0,r5) " " 
+  Zahl
+ins $a
+var $o (b":" e"^J" e"----:" F" " 0,80 r0,80) 
+  Eintrag
+ins $b
+  f. erste Zeile
+if not $fl ins $fl
+
+var $o (b":" e"^J" b"----:" 0,9 r0,9)
+if "" var "_________"
+ins $c
+var "N" $c
+ins $c
+
+  Zeile ausgeben
+
+wri $c "|" $a " " $b n
+
+  f. letzte Zeile
+var $b
+ins $ll
+
+var $o (b"^J")
+ins $o
+if %:% jump Aloop
+
+:ende
+  Datei zu
+close x
+  und zeigen
+View a9935 
+ins $v
+if not "N" jump noN
+var (f"N" e"|")
+eval
+  Das ist die Satznr der Fremdbank
+if =0 jump erg
+ins $z
+
+  und a99get.flx mit dieser Nummer starten
+var "a99get " $z
+exec 
+
+
+end
+
+  Zeile mit mehr als 1 Eintrag
+  z.B.  N123______| 14  goethe
+:erg
+  Suchbefehl aufbereiten
+var $v (b"|" f" " b"  ")
+ins $w
+var "a99erg " #urG " " $w
+  und ausfuehren
+exec
+end
+
+:noN
+
+  $fl = 1st line, $ll = last line
+  Vorige / Naechste Seite anfordern
+if "up" var "X a99ind " #urG " -" $fl;exec
+if "do" var "X a99ind " #urG " " $ll;exec
+end
+
+:nix
+var "Kein Ergebnis, sorry. Stimmt die Basis-URL: " $url "?"
+mes
+end
+
+:gti
+if $I jump Are
+var $burl "a99gti"
+
+get I
+
+ins _^T_^M^J_
+var (F"^M^J")
+ins $i
+var ""
+ins $I
+
+:gloop
+var $i (e"^M^J")
+ins $j
+var $j (e" ")
+ins $k
+var $j (b"=")
+ins $l
+
+var $I n $k " " $l
+ins $I
+var $i (b"^M^J")
+ins $i
+if not "" jump gloop
+
+var $I (f"^M^J")
+ins $I
+
+:Are
+var $I
+Aresqa
+if "" end
+var (e" ")
+if not "" ins #urG
+return
